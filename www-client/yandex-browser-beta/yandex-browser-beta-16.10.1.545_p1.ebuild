@@ -72,7 +72,7 @@ src_prepare() {
 	chromium_remove_language_paks
 	popd > /dev/null || die
 
-	eapply_user
+	default
 
 	sed -r \
 		-e 's|\[(NewWindow)|\[X-\1|g' \

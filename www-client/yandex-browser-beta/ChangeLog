@@ -1,0 +1,3 @@
+  07 Nov 2016; Alexander <alex@gentoo.org>
+  yandex-browser-beta-16.10.1.545_p1.ebuild:
+  Fix SUID BUG again

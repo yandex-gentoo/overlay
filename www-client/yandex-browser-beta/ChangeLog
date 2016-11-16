@@ -1,3 +1,10 @@
+*yandex-browser-beta-16.11.0.1819_p1 (16 Nov 2016)
+
+  16 Nov 2016; Alexander <alex@gentoo.org>
+  +yandex-browser-beta-16.11.0.1819_p1.ebuild,
+  -yandex-browser-beta-16.10.1.545_p1.ebuild:
+  Update www-client/yandex-browser-beta to last version
+
   07 Nov 2016; Alexander <alex@gentoo.org>
   yandex-browser-beta-16.10.1.545_p1.ebuild:
   Fix SUID BUG again

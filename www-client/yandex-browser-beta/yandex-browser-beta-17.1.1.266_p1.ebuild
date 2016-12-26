@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CHROMIUM_LANGS="cs de en-US es fr it ja kk pt-BR pt-PT ru tr uk zh-CN zh-TW"
+CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
 inherit chromium-2 unpacker
 
 RESTRICT="mirror"

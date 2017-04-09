@@ -3,7 +3,7 @@
 
 EAPI=6
 CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
-inherit chromium-2 unpacker
+inherit chromium-2 unpacker pax-utils
 
 RESTRICT="mirror"
 
@@ -55,6 +55,10 @@ QA_PREBUILT="*"
 S=${WORKDIR}
 YANDEX_HOME="opt/${PN/-//}"
 
+pkg_setup() {
+	chromium_suid_sandbox_check_kernel_config
+}
+
 src_unpack() {
 	unpack_deb ${A}
 }
@@ -82,6 +86,9 @@ src_prepare() {
 }
 
 src_install() {
+	# FIXME: XXX: Dirty kludge to avoid portage insecure SUIDs protection
+	chmod 0500 "${YANDEX_HOME}/yandex_browser-sandbox"
+
 	mv * "${D}" || die
 	dodir /usr/$(get_libdir)/${PN}/lib
 	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
@@ -93,13 +100,30 @@ src_install() {
 		dodir "/usr/share/icons/hicolor/${size}x${size}/apps"
 		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
 	done
+
+	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
+	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
 }
 
 pkg_postinst() {
-	# https://github.com/msva/mva-overlay/issues/79
-	# https://github.com/msva/mva-overlay/pull/80/files#r76529485
-	ewarn "The SUID sandbox helper binary was found, but is not configured correctly."
-	ewarn "You need to make sure that /${YANDEX_HOME}/yandex_browser-sandbox is owned by root and has mode 4755."
-	chown root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
-	chmod 4755 "/${YANDEX_HOME}/yandex_browser-sandbox"
+	eerror "Hello! This is a BIG RED notification about insecure state of this package."
+	eerror "Please, keep calm. It is not a fatal error, which prevent package installation."
+	eerror "Actually it is a notification about kludges to avoid it and make package to install"
+	eerror "in any way, because you will not be able to use your preferred browser otherwise."
+	eerror ""
+	eerror "The situation is in fact that SUID sandbox helper binary in ${PN}, is built with DT_RPATH='\$ORIGIN/.'"
+	eerror "This means, it is VERY vulnerable to attacks through libraries preloading."
+	eerror ""
+	eerror "In particular, it can be circumstances when attacker can force it"
+	eerror "to load libraries from controlled directory and so take control over it."
+	eerror ""
+	eerror "This is the bug in compilation (link time) process and, since ${PN} is proprietary software,"
+	eerror "this can't be fixed in any way except reporting this upstream."
+	eerror "But, since upstream has no public bugtracker, it is only users (you) who can report this"
+	eerror "and force them to fix that."
+	eerror ""
+	eerror "For now we can only make kludges to avoid portage protection system and get it installed."
+	eerror "So, be notified, that since now you have a big security hole in your system."
+
+	chmod 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
 }

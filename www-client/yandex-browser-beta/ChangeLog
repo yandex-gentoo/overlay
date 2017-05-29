@@ -1,3 +1,10 @@
+*yandex-browser-beta-17.4.1.906_p1 (29 May 2017)
+
+  29 May 2017; Alexander <alex@gentoo.org>
+  +yandex-browser-beta-17.4.1.906_p1.ebuild,
+  -yandex-browser-beta-17.3.1.873_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.4.1.906 version
+
 *yandex-browser-beta-17.1.1.773_p1 (12 Feb 2017)
 
   12 Feb 2017; Alexander <alex@gentoo.org>

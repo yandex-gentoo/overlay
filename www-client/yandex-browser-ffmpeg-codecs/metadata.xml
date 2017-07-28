@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <longdescription lang="en">Multi-threaded ffmpeg codecs needed for the HTML5 &lt;audio&gt; and &lt;video&gt; tags. In addition to the patent-free ogg, vorbis and theora codecs, aac/ac3/mpeg4audio/h264/mov/mp3 are also included</longdescription>
+  <maintainer type="person">
+    <email>alexander.konotop@gmail.com</email>
+    <name>Alexander Konotop</name>
+  </maintainer>
+</pkgmetadata>

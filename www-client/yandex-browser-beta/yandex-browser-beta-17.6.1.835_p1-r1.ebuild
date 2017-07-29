@@ -56,7 +56,7 @@ RDEPEND="
 	sys-libs/libudev-compat
 "
 DEPEND="
-	dev-util/patchelf
+	>=dev-util/patchelf-0.9
 "
 
 QA_PREBUILT="*"
@@ -114,5 +114,6 @@ src_install() {
 	done
 
 	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
+	fperms 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
 }

@@ -5,16 +5,16 @@ EAPI=6
 CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
 inherit chromium-2 unpacker pax-utils
 
-RESTRICT="mirror"
+RESTRICT="bindist mirror strip"
 
 MY_PV="${PV/_p/-}"
 
 DESCRIPTION="The web browser from Yandex"
-HOMEPAGE="http://browser.yandex.ru/beta/"
+HOMEPAGE="https://browser.yandex.ru/beta/"
 LICENSE="Yandex-EULA"
 SLOT="0"
 SRC_URI="
-	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
+	amd64? ( https://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
 "
 KEYWORDS="~amd64"
 
@@ -49,6 +49,14 @@ RDEPEND="
 	x11-libs/libXtst
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
+	|| (
+		www-plugins/yandex-browser-ffmpeg-codecs-bin
+		www-plugins/yandex-browser-ffmpeg-codecs
+	)
+	sys-libs/libudev-compat
+"
+DEPEND="
+	dev-util/patchelf
 "
 
 QA_PREBUILT="*"
@@ -83,16 +91,20 @@ src_prepare() {
 		-e 's|\[(NewIncognito)|\[X-\1|g' \
 		-e 's|^TargetEnvironment|X-&|g' \
 		-i usr/share/applications/${PN}.desktop || die
+
+	patchelf --remove-rpath "${YANDEX_HOME}/yandex_browser-sandbox" || die "Failed to fix library rpath (yandex_browser-sandbox)"
+	patchelf --remove-rpath "${YANDEX_HOME}/yandex_browser" || die "Failed to fix library rpath (yandex_browser)"
+	patchelf --remove-rpath "${YANDEX_HOME}/find_ffmpeg" || die "Failed to fix library rpath (find_ffmpeg)"
+	patchelf --remove-rpath "${YANDEX_HOME}/nacl_helper" || die "Failed to fix library rpath (nacl_helper)"
 }
 
 src_install() {
-	# FIXME: XXX: Dirty kludge to avoid portage insecure SUIDs protection
-	chmod 0500 "${YANDEX_HOME}/yandex_browser-sandbox"
-
 	mv * "${D}" || die
 	dodir /usr/$(get_libdir)/${PN}/lib
 	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
-	dosym /usr/$(get_libdir)/libudev.so /usr/$(get_libdir)/${PN}/lib/libudev.so.0
+
+	# yandex_browser binary loads libudev.so.0 at runtime
+	dosym /usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/${PN}/lib/libudev.so.0
 
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"
@@ -103,27 +115,4 @@ src_install() {
 
 	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
-}
-
-pkg_postinst() {
-	eerror "Hello! This is a BIG RED notification about insecure state of this package."
-	eerror "Please, keep calm. It is not a fatal error, which prevent package installation."
-	eerror "Actually it is a notification about kludges to avoid it and make package to install"
-	eerror "in any way, because you will not be able to use your preferred browser otherwise."
-	eerror ""
-	eerror "The situation is in fact that SUID sandbox helper binary in ${PN}, is built with DT_RPATH='\$ORIGIN/.'"
-	eerror "This means, it is VERY vulnerable to attacks through libraries preloading."
-	eerror ""
-	eerror "In particular, it can be circumstances when attacker can force it"
-	eerror "to load libraries from controlled directory and so take control over it."
-	eerror ""
-	eerror "This is the bug in compilation (link time) process and, since ${PN} is proprietary software,"
-	eerror "this can't be fixed in any way except reporting this upstream."
-	eerror "But, since upstream has no public bugtracker, it is only users (you) who can report this"
-	eerror "and force them to fix that."
-	eerror ""
-	eerror "For now we can only make kludges to avoid portage protection system and get it installed."
-	eerror "So, be notified, that since now you have a big security hole in your system."
-
-	chmod 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
 }

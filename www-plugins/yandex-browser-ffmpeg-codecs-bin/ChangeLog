@@ -1,0 +1,9 @@
+*yandex-browser-ffmpeg-codecs-bin-60.0.3112.113 (30 Aug 2017)
+*yandex-browser-ffmpeg-codecs-bin-60.0.3112.78 (30 Aug 2017)
+
+  30 Aug 2017; Alexander <alex@gentoo.org>
+  +yandex-browser-ffmpeg-codecs-bin-60.0.3112.113.ebuild,
+  +yandex-browser-ffmpeg-codecs-bin-60.0.3112.78.ebuild,
+  yandex-browser-ffmpeg-codecs-bin-59.0.3071.109.ebuild:
+  fix SRC_URI in www-plugins/yandex-browser-ffmpeg-codecs-bin-59.0.3071.109 and
+  added www-plugins/yandex-browser-ffmpeg-codecs-bin-60.0.3112.{78,113}

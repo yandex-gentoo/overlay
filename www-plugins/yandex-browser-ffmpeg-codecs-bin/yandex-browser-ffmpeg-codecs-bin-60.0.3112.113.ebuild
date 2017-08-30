@@ -12,7 +12,7 @@ SLOT="0"
 LICENSE="BSD"
 RESTRICT="bindist strip mirror"
 
-DEBIAN_REVISION="0ubuntu0.16.10.1357"
+DEBIAN_REVISION="0ubuntu0.17.04.1369"
 _FULL_VERSION="${PV}-${DEBIAN_REVISION}"
 BASE_URI="http://security.ubuntu.com/ubuntu/pool/universe/c/chromium-browser"
 SRC_URI="

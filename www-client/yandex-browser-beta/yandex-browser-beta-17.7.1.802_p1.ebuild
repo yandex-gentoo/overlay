@@ -100,11 +100,11 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
-	dodir /usr/$(get_libdir)/${PN}/lib
-	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
+	dodir "/usr/$(get_libdir)/${PN}/lib"
+	make_wrapper "${PN}" "./${PN}" "${EPREFIX}/${YANDEX_HOME}" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib"
 
 	# yandex_browser binary loads libudev.so.0 at runtime
-	dosym /usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/${PN}/lib/libudev.so.0
+	dosym "${EPREFIX}/usr/$(get_libdir)/libudev.so.0" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib/libudev.so.0"
 
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"
@@ -113,7 +113,7 @@ src_install() {
 		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
 	done
 
-	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
-	fperms 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
+	fowners root:root "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
+	fperms 4711 "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
 }

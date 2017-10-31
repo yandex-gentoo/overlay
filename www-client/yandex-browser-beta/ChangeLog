@@ -1,45 +1,52 @@
+*yandex-browser-beta-17.9.1.982_p1 (31 Oct 2017)
+
+  31 Oct 2017; Alexander <alex@ws54.tk>
+  +yandex-browser-beta-17.9.1.982_p1.ebuild,
+  -yandex-browser-beta-17.7.1.802_p1.ebuild,
+  Update www-client/yandex-browser-beta to 17.9.1.982 version
+
 *yandex-browser-beta-17.7.1.802_p1 (30 Aug 2017)
 
-  30 Aug 2017; Alexander <alex@gentoo.org>
+  30 Aug 2017; Alexander <alex@ws54.tk>
   +yandex-browser-beta-17.7.1.802_p1.ebuild,
   -yandex-browser-beta-17.6.1.835_p1-r1.ebuild:
   Update www-client/yandex-browser-beta to 17.7.1.802 version
 
 *yandex-browser-beta-17.6.1.835_p1 (05 Jul 2017)
 
-  05 Jul 2017; Alexander <alex@gentoo.org>
+  05 Jul 2017; Alexander <alex@ws54.tk>
   +yandex-browser-beta-17.6.1.835_p1.ebuild,
   -yandex-browser-beta-17.4.1.906_p1.ebuild:
   Update www-client/yandex-browser-beta to 17.6.1.835 version
 
 *yandex-browser-beta-17.4.1.906_p1 (29 May 2017)
 
-  29 May 2017; Alexander <alex@gentoo.org>
+  29 May 2017; Alexander <alex@ws54.tk>
   +yandex-browser-beta-17.4.1.906_p1.ebuild,
   -yandex-browser-beta-17.3.1.873_p1.ebuild:
   Update www-client/yandex-browser-beta to 17.4.1.906 version
 
 *yandex-browser-beta-17.1.1.773_p1 (12 Feb 2017)
 
-  12 Feb 2017; Alexander <alex@gentoo.org>
+  12 Feb 2017; Alexander <alex@ws54.tk>
   +yandex-browser-beta-17.1.1.773_p1.ebuild,
   -yandex-browser-beta-17.1.1.266_p1.ebuild:
   Update www-client/yandex-browser-beta to 17.1.1.773 version
 
 *yandex-browser-beta-17.1.1.266_p1 (26 Dec 2016)
 
-  26 Dec 2016; Alexander <alex@gentoo.org>
+  26 Dec 2016; Alexander <alex@ws54.tk>
   +yandex-browser-beta-17.1.1.266_p1.ebuild,
   -yandex-browser-beta-16.11.0.1819_p1.ebuild:
   Update www-client/yandex-browser-beta to 17.1.1.266 version
 
 *yandex-browser-beta-16.11.0.1819_p1 (16 Nov 2016)
 
-  16 Nov 2016; Alexander <alex@gentoo.org>
+  16 Nov 2016; Alexander <alex@ws54.tk>
   +yandex-browser-beta-16.11.0.1819_p1.ebuild,
   -yandex-browser-beta-16.10.1.545_p1.ebuild:
   Update www-client/yandex-browser-beta to last version
 
-  07 Nov 2016; Alexander <alex@gentoo.org>
+  07 Nov 2016; Alexander <alex@ws54.tk>
   yandex-browser-beta-16.10.1.545_p1.ebuild:
   Fix SUID BUG again

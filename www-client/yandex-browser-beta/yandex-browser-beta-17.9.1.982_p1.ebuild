@@ -3,7 +3,7 @@
 
 EAPI=6
 CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
-inherit chromium-2 unpacker pax-utils
+inherit chromium-2 unpacker pax-utils xdg-utils
 
 RESTRICT="bindist mirror strip"
 
@@ -116,4 +116,12 @@ src_install() {
 	fowners root:root "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
 	fperms 4711 "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
+}
+
+pkg_postinst() {
+	xdg_desktop_database_update
+}
+
+pkg_postrm() {
+	xdg_desktop_database_update
 }

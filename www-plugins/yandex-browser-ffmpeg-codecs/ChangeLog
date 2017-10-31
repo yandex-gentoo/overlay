@@ -1,0 +1,10 @@
+*yandex-browser-ffmpeg-codecs-59.0.3071.125 (31 Oct 2017)
+*yandex-browser-ffmpeg-codecs-60.0.3112.113 (31 Oct 2017)
+
+  31 Oct 2017; Alexander <alex@ws54.tk>
+  +files/chromium-FORTIFY_SOURCE-r1.patch, +files/chromium-FORTIFY_SOURCE.patch,
+  +files/chromium-dma-buf-r1.patch, +files/chromium-gn-bootstrap-r8.patch,
+  +files/chromium-widevine-r1.patch, +metadata.xml,
+  +yandex-browser-ffmpeg-codecs-59.0.3071.125.ebuild,
+  +yandex-browser-ffmpeg-codecs-60.0.3112.113.ebuild:
+  added www-plugins/yandex-browser-ffmpeg-codecs-{59.0.3071.125,60.0.3112.113}

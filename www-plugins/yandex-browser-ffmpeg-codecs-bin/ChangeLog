@@ -1,3 +1,12 @@
+*yandex-browser-ffmpeg-codecs-bin-62.0.3202.75 (05 Nov 2017)
+
+  05 Nov 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-ffmpeg-codecs-bin-60.0.3112.78.ebuild,
+  -yandex-browser-ffmpeg-codecs-bin-60.0.3112.113.ebuild,
+  +yandex-browser-ffmpeg-codecs-bin-62.0.3202.75.ebuild:
+  delete www-plugins/yandex-browser-ffmpeg-codecs-bin-60.0.3112.{78,113}
+  added www-plugins/yandex-browser-ffmpeg-codecs-bin-62.0.3202.75
+
 *yandex-browser-ffmpeg-codecs-bin-60.0.3112.113 (30 Aug 2017)
 *yandex-browser-ffmpeg-codecs-bin-60.0.3112.78 (30 Aug 2017)
 

@@ -1,3 +1,9 @@
+*yandex-browser-ffmpeg-codecs-59.0.3071.125 (26 Nov 2017)
+
+  26 Nov 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-ffmpeg-codecs-59.0.3071.125.ebuild:
+  Remove old version of codecs.
+
 *yandex-browser-ffmpeg-codecs-59.0.3071.125 (31 Oct 2017)
 *yandex-browser-ffmpeg-codecs-60.0.3112.113 (31 Oct 2017)
 

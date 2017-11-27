@@ -1,3 +1,10 @@
+*yandex-browser-beta-17.9.1.982_p1-r1 (27 Nov 2017)
+
+  27 Nov 2017; Alexander <alex@ws54.tk>
+  +yandex-browser-beta-17.9.1.982_p1-r1.ebuild,
+  -yandex-browser-beta-17.9.1.982_p1.ebuild:
+  Adding variety support of ffmpeg codecs.
+
 *yandex-browser-beta-17.9.1.982_p1 (31 Oct 2017)
 
   31 Oct 2017; Alexander <alex@ws54.tk>

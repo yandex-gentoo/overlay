@@ -1,3 +1,10 @@
+*yandex-browser-beta-17.10.1.1202_p1 (20 Dec 2017)
+
+  20 Dec 2017; Alexander <alex@ws54.tk>
+  +yandex-browser-beta-17.10.1.1202_p1.ebuild,
+  -yandex-browser-beta-17.9.1.982_p1-r1.ebuild:
+  Update www-client/yandex-browser-beta to 17.10.1.1202 version
+
 *yandex-browser-beta-17.9.1.982_p1-r1 (27 Nov 2017)
 
   27 Nov 2017; Alexander <alex@ws54.tk>

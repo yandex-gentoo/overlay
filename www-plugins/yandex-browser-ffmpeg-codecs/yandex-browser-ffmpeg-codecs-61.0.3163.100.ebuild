@@ -88,6 +88,15 @@ python_check_deps() {
 }
 
 DISABLE_AUTOFORMATTING="yes"
+PATCHES=(
+	"${FILESDIR}/chromium-widevine-r1.patch"
+	"${FILESDIR}/chromium-FORTIFY_SOURCE-r2.patch"
+	"${FILESDIR}/chromium-gcc-r1.patch"
+	"${FILESDIR}/chromium-gn-bootstrap-r14.patch"
+	"${FILESDIR}/chromium-atk-r1.patch"
+	"${FILESDIR}/chromium-mojo-dep.patch"
+	"${FILESDIR}/chromium-gcc5-r1.patch"
+)
 
 S="${WORKDIR}/chromium-${PV}"
 YANDEX_HOME="opt/yandex/browser-beta"
@@ -124,21 +133,6 @@ pkg_pretend() {
 }
 
 src_prepare() {
-	# Use Python 2
-	find . -name '*.py' -exec sed -r 's|/usr/bin/python$|&2|g' -i {} +
-	find . -name '*.py' -exec sed -r 's|/usr/bin/env python$|&2|g' -i {} +
-
-	# There are still a lot of relative calls which need a workaround
-	[[ -d "${WORKDIR}/python2-path" ]] && rm -rf "${WORKDIR}/python2-path"
-	mkdir "${WORKDIR}/python2-path"
-	ln -s /usr/bin/python2 "${WORKDIR}/python2-path/python"
-
-	local PATCHES=(
-		"${FILESDIR}/chromium-widevine-r1.patch"
-		"${FILESDIR}/chromium-FORTIFY_SOURCE-r1.patch"
-		"${FILESDIR}/chromium-gn-bootstrap-r8.patch"
-	)
-
 	default
 
 	mkdir -p third_party/node/linux/node-linux-x64/bin || die
@@ -152,19 +146,22 @@ src_configure() {
 	myconf_gn+=" is_debug=false"
 	myconf_gn+=" is_component_build=true"
 	myconf_gn+=" use_allocator=\"none\""
+	myconf_gn+=" enable_nacl=false"
+	myconf_gn+=" enable_hangout_services_extension=false"
+	myconf_gn+=" enable_widevine=false"
 	myconf_gn+=" use_cups=false"
 	myconf_gn+=" use_gconf=false"
 	myconf_gn+=" use_gnome_keyring=false"
-	myconf_gn+=" use_gtk3=true"
+	myconf_gn+=" use_gtk3=false"
 	myconf_gn+=" use_kerberos=false"
 	myconf_gn+=" use_pulseaudio=$(usex pulseaudio true false)"
-	# TODO: link_pulseaudio=true for GN.
+	# TODO??: link_pulseaudio=true for GN.
 	myconf_gn+=" is_clang=false"
-	myconf_gn+=" use_gold=false use_sysroot=false linux_use_bundled_binutils=false"
+	myconf_gn+=" use_gold=false use_sysroot=false linux_use_bundled_binutils=false use_custom_libcxx=false"
 
 	ffmpeg_branding="ChromeOS"
 
-	myconf_gn+=" proprietary_codecs=true"
+	myconf_gn+=" proprietary_codecs=$(usex proprietary-codecs true false)"
 	myconf_gn+=" ffmpeg_branding=\"${ffmpeg_branding}\""
 
 	if [[ $myarch = amd64 ]] ; then
@@ -220,6 +217,8 @@ src_configure() {
 	chromium/scripts/copy_config.sh || die
 	chromium/scripts/generate_gn.py || die
 	popd > /dev/null || die
+
+	third_party/libaddressinput/chromium/tools/update-strings.py || die
 
 	touch chrome/test/data/webui/i18n_process_css_test.html || die
 

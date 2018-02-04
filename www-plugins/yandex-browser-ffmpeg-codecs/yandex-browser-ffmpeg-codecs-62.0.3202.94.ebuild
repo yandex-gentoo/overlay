@@ -19,7 +19,6 @@ COMMON_DEPEND="
 	app-arch/bzip2:=
 	dev-libs/expat:=
 	dev-libs/glib:2
-	<dev-libs/icu-59:=
 	dev-libs/libxslt:=
 	dev-libs/nspr:=
 	>=dev-libs/nss-3.14.3:=
@@ -37,7 +36,6 @@ COMMON_DEPEND="
 	virtual/udev
 	x11-libs/cairo:=
 	x11-libs/gdk-pixbuf:2
-	x11-libs/gtk+:3[X]
 	x11-libs/libX11:=
 	x11-libs/libXcomposite:=
 	x11-libs/libXcursor:=
@@ -64,8 +62,8 @@ DEPEND="${COMMON_DEPEND}
 	dev-lang/yasm
 	dev-lang/perl
 	>=dev-util/gperf-3.0.3
-	dev-util/ninja
-	>=net-libs/nodejs-4.6.1
+	>=dev-util/ninja-1.7.2
+	>=net-libs/nodejs-6.9.4
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
@@ -89,13 +87,11 @@ python_check_deps() {
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/chromium-widevine-r1.patch"
 	"${FILESDIR}/chromium-FORTIFY_SOURCE-r2.patch"
-	"${FILESDIR}/chromium-gcc-r1.patch"
-	"${FILESDIR}/chromium-gn-bootstrap-r14.patch"
-	"${FILESDIR}/chromium-atk-r1.patch"
-	"${FILESDIR}/chromium-mojo-dep.patch"
-	"${FILESDIR}/chromium-gcc5-r1.patch"
+	"${FILESDIR}/chromium-gcc5-r3.patch"
+	"${FILESDIR}/chromium-glibc2.26-r1.patch"
+	"${FILESDIR}/chromium-gn-bootstrap-r17.patch"
+	"${FILESDIR}/chromium-widevine-r1.patch"
 )
 
 S="${WORKDIR}/chromium-${PV}"

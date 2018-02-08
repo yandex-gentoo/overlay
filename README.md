@@ -3,7 +3,7 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ## Ebuilds
 
-* www-client/[yandex-browser-beta-17.11.1.1120](www-client/yandex-browser-beta/yandex-browser-beta-17.11.1.1120_p1.ebuild)
+* www-client/[yandex-browser-beta-17.11.1.1120](www-client/yandex-browser-beta/yandex-browser-beta-17.11.1.1120_p1-r1.ebuild)
 * www-plugins/[yandex-browser-ffmpeg-codecs-62.0.3202.94](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-62.0.3202.94.ebuild)
 
 ## Packages

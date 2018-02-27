@@ -1,40 +1,75 @@
+# ChangeLog for www-plugins/yandex-browser-ffmpeg-codecs
+# Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
+# (auto-generated from git log)
+
+*yandex-browser-ffmpeg-codecs-63.0.3239.132 (27 Feb 2018)
+
+  27 Feb 2018; Alexander <alex@ws54.tk> -files/chromium-atk-r1.patch,
+  +files/chromium-clang-r1.patch, -files/chromium-gcc-r1.patch,
+  -files/chromium-gcc5-r1.patch, -files/chromium-gcc5-r3.patch,
+  +files/chromium-gcc5-r4.patch, +files/chromium-gcc5-r5.patch,
+  -files/chromium-glibc2.26-r1.patch, -files/chromium-gn-bootstrap-r14.patch,
+  -files/chromium-gn-bootstrap-r17.patch, -files/chromium-mojo-dep.patch,
+  +files/chromium-webrtc-r0.patch,
+  -yandex-browser-ffmpeg-codecs-62.0.3202.94.ebuild,
+  +yandex-browser-ffmpeg-codecs-63.0.3239.132.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+  08 Feb 2018; Alexander <alex@ws54.tk>
+  yandex-browser-ffmpeg-codecs-62.0.3202.94.ebuild:
+  Fix dependences of codecs version in browser
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.24, Repoman-2.3.6
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-ffmpeg-codecs-62.0.3202.94 (04 Feb 2018)
 
-  04 Feb 2018; Alexander <alex@ws54.tk>
-  +files/chromium-gcc5-r3.patch, +files/chromium-gn-bootstrap-r17.patch,
-  +files/chromium-glibc2.26-r1.patch, +files/chromium-widevine-r1.patch,
-  +yandex-browser-ffmpeg-codecs-62.0.3202.94.ebuild,
-  -files/chromium-ark-r1.patch, -files/chromium-gcc-r1.patch,
-  -files/chromium-gcc5-r1.patch, -files/chromium-gn-bootstrap-r14.patch,
-  -files/chromium-mojo-dep.patch,
-  -yandex-browser-ffmpeg-codecs-61.0.3163.100.ebuild:
+  04 Feb 2018; Alexander <alex@ws54.tk> +files/chromium-gcc5-r3.patch,
+  +files/chromium-glibc2.26-r1.patch, +files/chromium-gn-bootstrap-r17.patch,
+  -yandex-browser-ffmpeg-codecs-61.0.3163.100.ebuild,
+  +yandex-browser-ffmpeg-codecs-62.0.3202.94.ebuild:
   Update www-plugins/yandex-browser-ffmpeg-codecs to 62.0.3202.94 version
+
+  Signed-off-by: Alexander <alex@ws54.tk>
 
 *yandex-browser-ffmpeg-codecs-61.0.3163.100 (20 Dec 2017)
 
   20 Dec 2017; Alexander <alex@ws54.tk>
-  +files/chromium-FORTIFY_SOURCE-r2.patch, +files/chromium-ark-r1.patch,
-  +files/chromium-gcc-r1.patch, +files/chromium-gcc5-r1.patch,
-  +files/chromium-gn-bootstrap-r14.patch, +files/chromium-mojo-dep.patch,
-  +yandex-browser-ffmpeg-codecs-61.0.3163.100.ebuild,
-  -files/chromium-FORTIFY_SOURCE-r1.patch, -files/chromium-FORTIFY_SOURCE.patch,
-  -files/chromium-dma-buf-r1.patch, -files/chromium-gn-bootstrap-r8.patch,
-  -yandex-browser-ffmpeg-codecs-60.0.3112.113.ebuild:
-  Update www-plugins/yandex-browser-ffmpeg-codecs to 61.0.3163.100 version
+  -files/chromium-FORTIFY_SOURCE-r1.patch,
+  +files/chromium-FORTIFY_SOURCE-r2.patch,
+  -files/chromium-FORTIFY_SOURCE.patch, +files/chromium-atk-r1.patch,
+  -files/chromium-dma-buf-r1.patch, +files/chromium-gcc-r1.patch,
+  +files/chromium-gcc5-r1.patch, +files/chromium-gn-bootstrap-r14.patch,
+  -files/chromium-gn-bootstrap-r8.patch, +files/chromium-mojo-dep.patch,
+  -yandex-browser-ffmpeg-codecs-60.0.3112.113.ebuild,
+  +yandex-browser-ffmpeg-codecs-61.0.3163.100.ebuild:
+  Update:
+  * www-client/yandex-browser-beta to 17.10.1.1202 version
+  * www-plugins/yandex-browser-ffmpeg-codecs to 61.0.3163.100 version
 
-*yandex-browser-ffmpeg-codecs-59.0.3071.125 (26 Nov 2017)
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.19, Repoman-2.3.6
+  Manifest-Sign-Key: EF324203
 
   26 Nov 2017; Alexander <alex@ws54.tk>
   -yandex-browser-ffmpeg-codecs-59.0.3071.125.ebuild:
-  Remove old version of codecs.
+  Remove old version of codecs
 
-*yandex-browser-ffmpeg-codecs-59.0.3071.125 (31 Oct 2017)
 *yandex-browser-ffmpeg-codecs-60.0.3112.113 (31 Oct 2017)
+*yandex-browser-ffmpeg-codecs-59.0.3071.125 (31 Oct 2017)
 
   31 Oct 2017; Alexander <alex@ws54.tk>
-  +files/chromium-FORTIFY_SOURCE-r1.patch, +files/chromium-FORTIFY_SOURCE.patch,
-  +files/chromium-dma-buf-r1.patch, +files/chromium-gn-bootstrap-r8.patch,
-  +files/chromium-widevine-r1.patch, +metadata.xml,
-  +yandex-browser-ffmpeg-codecs-59.0.3071.125.ebuild,
+  +files/chromium-FORTIFY_SOURCE-r1.patch,
+  +files/chromium-FORTIFY_SOURCE.patch, +files/chromium-dma-buf-r1.patch,
+  +files/chromium-gn-bootstrap-r8.patch, +files/chromium-widevine-r1.patch,
+  +metadata.xml, +yandex-browser-ffmpeg-codecs-59.0.3071.125.ebuild,
   +yandex-browser-ffmpeg-codecs-60.0.3112.113.ebuild:
   added www-plugins/yandex-browser-ffmpeg-codecs-{59.0.3071.125,60.0.3112.113}
+
+  Package-Manager: Portage-2.3.12, Repoman-2.3.3
+  Manifest-Sign-Key: EF324203
+  Signed-off-by: Alexander <alex@ws54.tk>
+

@@ -26,7 +26,7 @@ COMMON_DEPEND="
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/fontconfig:=
 	media-libs/freetype:=
-	>=media-libs/harfbuzz-1.4.2:=[icu(-)]
+	>=media-libs/harfbuzz-1.5.0:=[icu(-)]
 	media-libs/libjpeg-turbo:=
 	media-libs/libpng:=
 	>=media-libs/openh264-1.6.0:=
@@ -34,25 +34,25 @@ COMMON_DEPEND="
 	sys-apps/dbus:=
 	sys-apps/pciutils:=
 	virtual/udev
-	x11-libs/cairo:=
-	x11-libs/gdk-pixbuf:2
-	x11-libs/libX11:=
-	x11-libs/libXcomposite:=
-	x11-libs/libXcursor:=
-	x11-libs/libXdamage:=
-	x11-libs/libXext:=
-	x11-libs/libXfixes:=
-	>=x11-libs/libXi-1.6.0:=
-	x11-libs/libXrandr:=
-	x11-libs/libXrender:=
-	x11-libs/libXScrnSaver:=
-	x11-libs/libXtst:=
-	x11-libs/pango:=
 	app-arch/snappy:=
 	media-libs/flac:=
 	>=media-libs/libwebp-0.4.0:=
 	sys-libs/zlib:=[minizip]
 "
+	# x11-libs/cairo:=
+	# x11-libs/gdk-pixbuf:2
+	# x11-libs/libX11:=
+	# x11-libs/libXcomposite:=
+	# x11-libs/libXcursor:=
+	# x11-libs/libXdamage:=
+	# x11-libs/libXext:=
+	# x11-libs/libXfixes:=
+	# >=x11-libs/libXi-1.6.0:=
+	# x11-libs/libXrandr:=
+	# x11-libs/libXrender:=
+	# x11-libs/libXScrnSaver:=
+	# x11-libs/libXtst:=
+	# x11-libs/pango:=
 
 RDEPEND="
 	sys-libs/glibc
@@ -85,13 +85,18 @@ python_check_deps() {
 	has_version --host-root "dev-python/simplejson[${PYTHON_USEDEP}]"
 }
 
+if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
+	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
+fi
+
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/chromium-FORTIFY_SOURCE-r2.patch"
-	"${FILESDIR}/chromium-gcc5-r3.patch"
-	"${FILESDIR}/chromium-glibc2.26-r1.patch"
-	"${FILESDIR}/chromium-gn-bootstrap-r17.patch"
 	"${FILESDIR}/chromium-widevine-r1.patch"
+	"${FILESDIR}/chromium-FORTIFY_SOURCE-r2.patch"
+	"${FILESDIR}/chromium-gcc5-r4.patch"
+	"${FILESDIR}/chromium-clang-r1.patch"
+	"${FILESDIR}/chromium-webrtc-r0.patch"
+	"${FILESDIR}/chromium-gcc5-r5.patch"
 )
 
 S="${WORKDIR}/chromium-${PV}"

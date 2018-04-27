@@ -2,6 +2,21 @@
 # Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-beta-64.0.3282.186 (27 Apr 2018)
+
+  27 Apr 2018; Alexander <alex@ws54.tk>
+  +files/chromium-angle-r0.patch, -files/chromium-clang-r1.patch,
+  +files/chromium-clang-r2.patch, +files/chromium-ffmpeg-r0.patch,
+  -files/chromium-gcc5-r4.patch, -files/chromium-gcc5-r5.patch,
+  +files/chromium-memcpy-r0.patch, -files/chromium-widevine-r1.patch,
+  -yandex-browser-beta-63.0.3239.132.ebuild,
+  +yandex-browser-beta-64.0.3282.186.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.31, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-ffmpeg-codecs-63.0.3239.132 (27 Feb 2018)
 
   27 Feb 2018; Alexander <alex@ws54.tk> -files/chromium-atk-r1.patch,

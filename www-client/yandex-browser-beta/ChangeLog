@@ -2,6 +2,17 @@
 # Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-beta-18.4.0.2373_p1 (17 Jun 2018)
+
+  17 Jun 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.3.1.1122_p1.ebuild,
+  +yandex-browser-beta-18.4.0.2373__p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.40-r1, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-beta-18.3.1.1122_p1 (27 Apr 2018)
 
   27 Apr 2018; Alexander <alex@ws54.tk>

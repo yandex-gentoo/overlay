@@ -19,6 +19,7 @@ COMMON_DEPEND="
 	app-arch/bzip2:=
 	dev-libs/expat:=
 	dev-libs/glib:2
+	>=dev-libs/libxml2-2.9.4-r3:=[icu]
 	dev-libs/libxslt:=
 	dev-libs/nspr:=
 	>=dev-libs/nss-3.26:=
@@ -26,7 +27,7 @@ COMMON_DEPEND="
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/fontconfig:=
 	media-libs/freetype:=
-	>=media-libs/harfbuzz-1.5.0:=[icu(-)]
+	>=media-libs/harfbuzz-1.6.0:=[icu(-)]
 	media-libs/libjpeg-turbo:=
 	media-libs/libpng:=
 	>=media-libs/openh264-1.6.0:=
@@ -67,6 +68,7 @@ DEPEND="${COMMON_DEPEND}
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
+	>=sys-devel/clang-5
 	virtual/pkgconfig
 	dev-vcs/git
 	$(python_gen_any_dep '
@@ -95,8 +97,11 @@ PATCHES=(
 	"${FILESDIR}/chromium-webrtc-r0.patch"
 	"${FILESDIR}/chromium-memcpy-r0.patch"
 	"${FILESDIR}/chromium-clang-r2.patch"
-	"${FILESDIR}/chromium-angle-r0.patch"
-	"${FILESDIR}/chromium-ffmpeg-r0.patch"
+	"${FILESDIR}/chromium-gn-r0.patch"
+	"${FILESDIR}/chromium-math.h-r0.patch"
+	"${FILESDIR}/chromium-clang-r3.patch"
+	"${FILESDIR}/chromium-stdint.patch"
+	"${FILESDIR}/chromium-ffmpeg-clang.patch"
 )
 
 S="${WORKDIR}/chromium-${PV}"
@@ -131,6 +136,12 @@ pre_build_checks() {
 
 pkg_pretend() {
 	pre_build_checks
+}
+
+pkg_setup() {
+	pre_build_checks
+
+	# chromium_suid_sandbox_check_kernel_config
 }
 
 src_prepare() {
@@ -290,7 +301,6 @@ src_prepare() {
 	# build/linux/unbundle/remove_bundled_libraries.py "${keeplibs[@]}" --do-remove || die
 }
 
-
 bootstrap_gn() {
 	if tc-is-cross-compiler; then
 		local -x AR=${BUILD_AR}
@@ -311,14 +321,48 @@ src_configure() {
 	# Calling this here supports resumption via FEATURES=keepwork
 	python_setup
 
-	local myarch="$(tc-arch)"
 	local myconf_gn=""
 
+	# Make sure the build system will use the right tools, bug #340795.
+	tc-export AR CC CXX NM
+
+	if ! tc-is-clang; then
+		# Force clang since gcc is pretty broken at the moment.
+		CC=${CHOST}-clang
+		CXX=${CHOST}-clang++
+		strip-unsupported-flags
+	fi
+
+	if tc-is-clang; then
+		myconf_gn+=" is_clang=true clang_use_chrome_plugins=false"
+	else
+		myconf_gn+=" is_clang=false"
+	fi
+
+	# Define a custom toolchain for GN
+	myconf_gn+=" custom_toolchain=\"//build/toolchain/linux/unbundle:default\""
+
+	if tc-is-cross-compiler; then
+		tc-export BUILD_{AR,CC,CXX,NM}
+		myconf_gn+=" host_toolchain=\"//build/toolchain/linux/unbundle:host\""
+		myconf_gn+=" v8_snapshot_toolchain=\"//build/toolchain/linux/unbundle:host\""
+	else
+		myconf_gn+=" host_toolchain=\"//build/toolchain/linux/unbundle:default\""
+	fi
+
+	# GN needs explicit config for Debug/Release as opposed to inferring it from build directory.
 	myconf_gn+=" is_debug=false"
+
+	# Component build isn't generally intended for use by end users. It's mostly useful
+	# for development and debugging.
 	myconf_gn+=" is_component_build=true"
+
 	# https://chromium.googlesource.com/chromium/src/+/lkcr/docs/jumbo.md
 	myconf_gn+=" use_jumbo_build=false"
+
 	myconf_gn+=" use_allocator=\"none\""
+
+	# Disable nacl, we can't build without pnacl (http://crbug.com/269560).
 	myconf_gn+=" enable_nacl=false"
 
 	# Use system-provided libraries.
@@ -329,12 +373,41 @@ src_configure() {
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 
+	## 2018-06-16
 	# libevent: https://bugs.gentoo.org/593458
+	# local gn_system_libraries=(
+	# 	flac
+	# 	fontconfig
+	# 	freetype
+	# 	# Need harfbuzz_from_pkgconfig target
+	# 	#harfbuzz-ng
+	# 	libdrm
+	# 	libjpeg
+	# 	libpng
+	# 	libwebp
+	# 	libxml
+	# 	libxslt
+	# 	openh264
+	# 	re2
+	# 	snappy
+	# 	yasm
+	# 	zlib
+	# )
+	# if use system-ffmpeg; then
+	# 	gn_system_libraries+=( ffmpeg opus )
+	# fi
+	# if use system-icu; then
+	# 	gn_system_libraries+=( icu )
+	# fi
+	# if use system-libvpx; then
+	# 	gn_system_libraries+=( libvpx )
+	# fi
+	# build/linux/unbundle/replace_gn_files.py --system-libraries "${gn_system_libraries[@]}" || die
 
 	# See dependency logic in third_party/BUILD.gn
 	myconf_gn+=" use_system_harfbuzz=true"
 
-	myconf_gn+=" enable_hangout_services_extension=false"
+	# Optional dependencies.	myconf_gn+=" enable_hangout_services_extension=false"
 	myconf_gn+=" enable_widevine=false"
 	myconf_gn+=" use_cups=false"
 	myconf_gn+=" use_gconf=false"
@@ -342,6 +415,7 @@ src_configure() {
 	myconf_gn+=" use_gtk3=false"
 	myconf_gn+=" use_kerberos=false"
 	myconf_gn+=" use_pulseaudio=$(usex pulseaudio true false)"
+
 	# TODO??: link_pulseaudio=true for GN.
 	myconf_gn+=" is_clang=false"
 
@@ -358,6 +432,7 @@ src_configure() {
 	myconf_gn+=" proprietary_codecs=$(usex proprietary-codecs true false)"
 	myconf_gn+=" ffmpeg_branding=\"${ffmpeg_branding}\""
 
+	local myarch="$(tc-arch)"
 	if [[ $myarch = amd64 ]] ; then
 		myconf_gn+=" target_cpu=\"x64\""
 		ffmpeg_target_arch=x64
@@ -395,22 +470,10 @@ src_configure() {
 		filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx -mno-avx2
 	fi
 
-	tc-export AR CC CXX NM
-
-	# Define a custom toolchain for GN
-	myconf_gn+=" custom_toolchain=\"//build/toolchain/linux/unbundle:default\""
-
-	if tc-is-cross-compiler; then
-		tc-export BUILD_{AR,CC,CXX,NM}
-		myconf_gn+=" host_toolchain=\"//build/toolchain/linux/unbundle:host\""
-		myconf_gn+=" v8_snapshot_toolchain=\"//build/toolchain/linux/unbundle:host\""
-	else
-		myconf_gn+=" host_toolchain=\"//build/toolchain/linux/unbundle:default\""
-	fi
-
 	# https://bugs.gentoo.org/588596
-	append-cxxflags $(test-flags-CXX -fno-delete-null-pointer-checks)
+	#append-cxxflags $(test-flags-CXX -fno-delete-null-pointer-checks)
 
+	# Bug 491582.
 	export TMPDIR="${WORKDIR}/temp"
 	mkdir -p -m 755 "${TMPDIR}" || die
 
@@ -428,10 +491,6 @@ src_configure() {
 		popd > /dev/null || die
 	# fi
 
-	# third_party/libaddressinput/chromium/tools/update-strings.py || die
-
-	# touch chrome/test/data/webui/i18n_process_css_test.html || die
-
 	bootstrap_gn
 
 	einfo "Configuring Chromium..."
@@ -445,6 +504,8 @@ src_compile() {
 	python_setup
 
 	eninja -C out/Release -v media/ffmpeg
+	# clang-5.0: warning: optimization flag '-fno-delete-null-pointer-checks' is not supported [-Wignored-optimization-argument]
+	# warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
 }
 
 src_install() {

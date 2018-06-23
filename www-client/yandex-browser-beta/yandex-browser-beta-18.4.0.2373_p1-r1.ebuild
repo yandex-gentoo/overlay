@@ -123,7 +123,7 @@ pkg_postinst() {
 	if ! use ffmpeg-codecs; then
 		ewarn "For a complete support of video\audio in the HTML5 format"
 		ewarn "emerge an ebuild 'www-plugins/yandex-browser-ffmpeg-codec'."
-		ewarn "For more info see: https://yandex.ru/support/browser/working-with-files/video-audio.xml#video-linux"
+		ewarn "For more info see: https://yandex.ru/support/browser-beta/working-with-files/video.html#problems__video-linux"
 	fi
 }
 

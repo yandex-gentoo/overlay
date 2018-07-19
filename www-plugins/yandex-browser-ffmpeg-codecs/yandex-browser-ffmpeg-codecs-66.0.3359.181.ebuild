@@ -97,10 +97,10 @@ PATCHES=(
 	"${FILESDIR}/chromium-webrtc-r0.patch"
 	"${FILESDIR}/chromium-memcpy-r0.patch"
 	"${FILESDIR}/chromium-clang-r2.patch"
-	"${FILESDIR}/chromium-gn-r0.patch"
 	"${FILESDIR}/chromium-math.h-r0.patch"
-	"${FILESDIR}/chromium-clang-r3.patch"
 	"${FILESDIR}/chromium-stdint.patch"
+	"${FILESDIR}/chromium-clang-r4.patch"
+	"${FILESDIR}/chromium-ffmpeg-r1.patch"
 	"${FILESDIR}/chromium-ffmpeg-clang.patch"
 )
 
@@ -457,18 +457,20 @@ src_configure() {
 	# myconf_gn+=" "
 
 	# Avoid CFLAGS problems, bug #352457, bug #390147.
-	replace-flags "-Os" "-O2"
-	strip-flags
+	# if ! use custom-cflags; then
+		replace-flags "-Os" "-O2"
+		strip-flags
 
-	# Prevent linker from running out of address space, bug #471810 .
-	if use x86; then
-		filter-flags "-g*"
-	fi
+		# Prevent linker from running out of address space, bug #471810 .
+		if use x86; then
+			filter-flags "-g*"
+		fi
 
-	# Prevent libvpx build failures. Bug 530248, 544702, 546984.
-	if [[ ${myarch} == amd64 || ${myarch} == x86 ]]; then
-		filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx -mno-avx2
-	fi
+		# Prevent libvpx build failures. Bug 530248, 544702, 546984.
+		if [[ ${myarch} == amd64 || ${myarch} == x86 ]]; then
+			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx -mno-avx2
+		fi
+	# fi
 
 	# https://bugs.gentoo.org/588596
 	#append-cxxflags $(test-flags-CXX -fno-delete-null-pointer-checks)
@@ -503,14 +505,16 @@ src_compile() {
 	# Calling this here supports resumption via FEATURES=keepwork
 	python_setup
 
+	# Even though ninja autodetects number of CPUs, we respect
+	# user's options, for debugging with -j 1 or any other reason.
 	eninja -C out/Release -v media/ffmpeg
 	# clang-5.0: warning: optimization flag '-fno-delete-null-pointer-checks' is not supported [-Wignored-optimization-argument]
 	# warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
 }
 
 src_install() {
-	keepdir "${YANDEX_HOME}"
+	keepdir "${EPREFIX}/${YANDEX_HOME}"
 	strip out/Release/libffmpeg.so
-	insinto "${YANDEX_HOME}"
+	insinto "${EPREFIX}/${YANDEX_HOME}"
 	doins out/Release/libffmpeg.so
 }

@@ -51,7 +51,7 @@ RDEPEND="
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
 	ffmpeg-codecs? (
-		=www-plugins/yandex-browser-ffmpeg-codecs-65.0.3325.181
+		=www-plugins/yandex-browser-ffmpeg-codecs-66.0.3359.181
 	)
 	sys-libs/libudev-compat
 "
@@ -106,6 +106,7 @@ src_install() {
 	# yandex_browser binary loads libudev.so.0 at runtime
 	dosym "${EPREFIX}/usr/$(get_libdir)/libudev.so.0" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib/libudev.so.0"
 
+	keepdir "${EPREFIX}/${YANDEX_HOME}"
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"
 		size=${size%.png}

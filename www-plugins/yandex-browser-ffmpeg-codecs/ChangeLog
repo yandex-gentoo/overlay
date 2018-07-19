@@ -2,15 +2,27 @@
 # Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-ffmpeg-codecs-66.0.3359.181 (19 Jul 2018)
+
+  19 Jul 2018; Alexander <alex@ws54.tk> -files/chromium-clang-r3.patch,
+  +files/chromium-clang-r4.patch, +files/chromium-ffmpeg-r1.patch,
+  -files/chromium-gn-r0.patch,
+  -yandex-browser-ffmpeg-codecs-65.0.3325.181.ebuild,
+  +yandex-browser-ffmpeg-codecs-66.0.3359.181.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.40-r1, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-ffmpeg-codecs-65.0.3325.181 (17 Jun 2018)
 
-  17 Jun 2018; Alexander <alex@ws54.tk>
-  -files/chromium-angle-r0.patch, +files/chromium-clang-r3.patch,
-  +files/chromium-ffmpeg-clang.patch, -files/chromium-ffmpeg-r0.patch,
-  +files/chromium-gn-r0.patch, +files/chromium-math.h-r0.patch,
-  +files/chromium-stdint.patch,
-  -yandex-browser-beta-64.0.3282.186.ebuild,
-  +yandex-browser-beta-65.0.3325.181.ebuild:
+  17 Jun 2018; Alexander <alex@ws54.tk> -files/chromium-angle-r0.patch,
+  +files/chromium-clang-r3.patch, +files/chromium-ffmpeg-clang.patch,
+  -files/chromium-ffmpeg-r0.patch, +files/chromium-gn-r0.patch,
+  +files/chromium-math.h-r0.patch, +files/chromium-stdint.patch,
+  -yandex-browser-ffmpeg-codecs-64.0.3282.186.ebuild,
+  +yandex-browser-ffmpeg-codecs-65.0.3325.181.ebuild:
   Bump version of YaBrowser and codecs.
 
   Signed-off-by: Alexander <alex@ws54.tk>
@@ -19,13 +31,13 @@
 
 *yandex-browser-ffmpeg-codecs-64.0.3282.186 (27 Apr 2018)
 
-  27 Apr 2018; Alexander <alex@ws54.tk>
-  +files/chromium-angle-r0.patch, -files/chromium-clang-r1.patch,
-  +files/chromium-clang-r2.patch, +files/chromium-ffmpeg-r0.patch,
-  -files/chromium-gcc5-r4.patch, -files/chromium-gcc5-r5.patch,
-  +files/chromium-memcpy-r0.patch, -files/chromium-widevine-r1.patch,
-  -yandex-browser-beta-63.0.3239.132.ebuild,
-  +yandex-browser-beta-64.0.3282.186.ebuild:
+  27 Apr 2018; Alexander <alex@ws54.tk> +files/chromium-angle-r0.patch,
+  -files/chromium-clang-r1.patch, +files/chromium-clang-r2.patch,
+  +files/chromium-ffmpeg-r0.patch, -files/chromium-gcc5-r4.patch,
+  -files/chromium-gcc5-r5.patch, +files/chromium-memcpy-r0.patch,
+  -files/chromium-widevine-r1.patch,
+  -yandex-browser-ffmpeg-codecs-63.0.3239.132.ebuild,
+  +yandex-browser-ffmpeg-codecs-64.0.3282.186.ebuild:
   Bump version of YaBrowser and codecs.
 
   Signed-off-by: Alexander <alex@ws54.tk>

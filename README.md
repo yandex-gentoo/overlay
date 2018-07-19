@@ -3,15 +3,20 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ## Ebuilds
 
-* www-client/[yandex-browser-beta-18.4.0.2373-r1](www-client/yandex-browser-beta/yandex-browser-beta-18.4.0.2373_p1-r1.ebuild)
-* www-plugins/[yandex-browser-ffmpeg-codecs-65.0.3325.181](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-65.0.3325.181.ebuild)
+* www-client/[yandex-browser-beta-18.6.0.2300](www-client/yandex-browser-beta/yandex-browser-beta-18.6.0.2300_p1.ebuild)
+* www-plugins/[yandex-browser-ffmpeg-codecs-66.0.3359.181](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-66.0.3359.181.ebuild)
 
 ## Current Packages
 
-* www-client/[yandex-browser-beta-18.4.0.2373_p1-r1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.4.0.2373_p1-r1.tbz2) — 17 Jun 2018
-* www-plugins/[yandex-browser-ffmpeg-codecs-65.0.3325.181.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-65.0.3325.181.tbz2) — 17 Jun 2018
+* www-client/[yandex-browser-beta-18.6.0.2300_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.6.0.2300_p1.tbz2) — 17 Jun 2018
+* www-plugins/[yandex-browser-ffmpeg-codecs-66.0.3359.181.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-66.0.3359.181.tbz2) — 17 Jun 2018
 
 ## Previous Packages
+
+### 17 Jun 2018
+
+* www-client/[yandex-browser-beta-18.4.0.2373_p1-r1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.4.0.2373_p1-r1.tbz2) — 17 Jun 2018
+* www-plugins/[yandex-browser-ffmpeg-codecs-65.0.3325.181.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-65.0.3325.181.tbz2) — 17 Jun 2018
 
 ### 27 Apr 2018
 

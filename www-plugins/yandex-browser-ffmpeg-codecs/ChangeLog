@@ -2,9 +2,22 @@
 # Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
-*yandex-browser-ffmpeg-codecs-66.0.3359.181 (19 Jul 2018)
+*yandex-browser-ffmpeg-codecs-67.0.3396.99 (26 Aug 2018)
 
-  19 Jul 2018; Alexander <alex@ws54.tk> -files/chromium-clang-r3.patch,
+  26 Aug 2018; Alexander <alex@ws54.tk>
+  -files/chromium-FORTIFY_SOURCE-r2.patch, -files/chromium-clang-r2.patch,
+  -files/chromium-clang-r4.patch, +files/chromium-compiler-r0.patch,
+  -yandex-browser-ffmpeg-codecs-66.0.3359.181.ebuild,
+  +yandex-browser-ffmpeg-codecs-67.0.3396.99.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.44, Repoman-2.3.10
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-ffmpeg-codecs-66.0.3359.181 (20 Jul 2018)
+
+  20 Jul 2018; Alexander <alex@ws54.tk> -files/chromium-clang-r3.patch,
   +files/chromium-clang-r4.patch, +files/chromium-ffmpeg-r1.patch,
   -files/chromium-gn-r0.patch,
   -yandex-browser-ffmpeg-codecs-65.0.3325.181.ebuild,

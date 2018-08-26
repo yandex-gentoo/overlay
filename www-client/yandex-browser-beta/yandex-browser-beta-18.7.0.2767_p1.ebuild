@@ -51,7 +51,7 @@ RDEPEND="
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
 	ffmpeg-codecs? (
-		=www-plugins/yandex-browser-ffmpeg-codecs-66.0.3359.181
+		=www-plugins/yandex-browser-ffmpeg-codecs-67.0.3396.99
 	)
 	sys-libs/libudev-compat
 "

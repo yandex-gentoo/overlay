@@ -12,8 +12,8 @@ HOMEPAGE="http://www.chromium.org/Home"
 LICENSE="BSD"
 SLOT="0"
 SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz"
-KEYWORDS="~x86 ~amd64"
-IUSE="+component-build +proprietary-codecs pulseaudio"
+KEYWORDS="~amd64 ~x86"
+IUSE="+component-build +proprietary-codecs pulseaudio x86? ( pic )"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -93,13 +93,11 @@ fi
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/chromium-FORTIFY_SOURCE-r2.patch"
+	"${FILESDIR}/chromium-compiler-r0.patch"
 	"${FILESDIR}/chromium-webrtc-r0.patch"
 	"${FILESDIR}/chromium-memcpy-r0.patch"
-	"${FILESDIR}/chromium-clang-r2.patch"
 	"${FILESDIR}/chromium-math.h-r0.patch"
 	"${FILESDIR}/chromium-stdint.patch"
-	"${FILESDIR}/chromium-clang-r4.patch"
 	"${FILESDIR}/chromium-ffmpeg-r1.patch"
 	"${FILESDIR}/chromium-ffmpeg-clang.patch"
 )
@@ -479,8 +477,15 @@ src_configure() {
 	export TMPDIR="${WORKDIR}/temp"
 	mkdir -p -m 755 "${TMPDIR}" || die
 
+	# https://bugs.gentoo.org/654216
+	addpredict /dev/dri/ #nowarn
+
 	# if ! use system-ffmpeg; then
 		local build_ffmpeg_args=""
+
+		if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
+			build_ffmpeg_args+=" --disable-asm"
+		fi
 
 		# Re-configure bundled ffmpeg. See bug #491378 for example reasons.
 		einfo "Configuring bundled ffmpeg..."
@@ -515,6 +520,6 @@ src_compile() {
 src_install() {
 	keepdir "${EPREFIX}/${YANDEX_HOME}"
 	strip out/Release/libffmpeg.so
-	insinto "${EPREFIX}/${YANDEX_HOME}"
+	insinto "${YANDEX_HOME}"
 	doins out/Release/libffmpeg.so
 }

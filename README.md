@@ -3,15 +3,27 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ## Ebuilds
 
-* www-client/[yandex-browser-beta-18.7.0.2767](www-client/yandex-browser-beta/yandex-browser-beta-18.7.0.2767_p1.ebuild)
+* www-client/[yandex-browser-beta-18.10.0.2722](www-client/yandex-browser-beta/yandex-browser-beta-18.10.0.2722_p1.ebuild)
 * www-plugins/[yandex-browser-ffmpeg-codecs-67.0.3396.99](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-67.0.3396.99.ebuild)
 
 ## Current Packages
 
-* www-client/[yandex-browser-beta-18.7.0.2767_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.7.0.2767_p1.tbz2) — 26 Aug 2018
+* www-client/[yandex-browser-beta-18.10.0.2722_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.10.0.2722_p1.tbz2) — 06 Nov 2018
 * www-plugins/[yandex-browser-ffmpeg-codecs-67.0.3396.99.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-67.0.3396.99.tbz2) — 26 Aug 2018
 
 ## Previous Packages
+
+### 10 Oct 2018
+
+* www-client/[yandex-browser-beta-18.9.1.967_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.9.1.967_p1.tbz2) — 10 Oct 2018
+
+### 01 Oct 2018
+
+* www-client/[yandex-browser-beta-18.9.1.882_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.9.1.882_p1.tbz2) — 01 Oct 2018
+
+### 26 Aug 2018
+
+* www-client/[yandex-browser-beta-18.7.0.2767_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-18.7.0.2767_p1.tbz2) — 26 Aug 2018
 
 ### 20 Jul 2018
 

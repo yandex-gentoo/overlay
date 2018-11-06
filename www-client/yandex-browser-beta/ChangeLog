@@ -2,6 +2,24 @@
 # Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-beta-18.9.1.967_p1 (10 Oct 2018)
+
+  10 Oct 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.9.1.882_p1.ebuild,
+  +yandex-browser-beta-18.9.1.967_p1.ebuild:
+  Bump Ya.Browser to version 18.9.1.967
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.9.1.882_p1 (30 Sep 2018)
+
+  30 Sep 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.7.0.2767_p1.ebuild,
+  +yandex-browser-beta-18.9.1.882_p1.ebuild:
+  Bump Ya.Browser to version 18.9.1.882
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
 *yandex-browser-beta-18.7.0.2767_p1 (26 Aug 2018)
 
   26 Aug 2018; Alexander <alex@ws54.tk>

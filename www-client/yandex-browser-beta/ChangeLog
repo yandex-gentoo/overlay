@@ -1,6 +1,24 @@
 # ChangeLog for www-client/yandex-browser-beta
-# Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
+
+*yandex-browser-beta-18.11.1.715_p1-r0 (14 Jan 2019)
+
+  14 Jan 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.10.0.2722_p1.ebuild,
+  +yandex-browser-beta-18.11.1.715_p1-r0.ebuild:
+  Bump Ya.Browser to version 18.11.1.715
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.10.0.2722_p1 (06 Nov 2018)
+
+  06 Nov 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.9.1.967_p1.ebuild,
+  +yandex-browser-beta-18.10.0.2722_p1.ebuild:
+  Bump Ya.Browser to version 18.10.0.2722
+
+  Signed-off-by: Alexander <alex@ws54.tk>
 
 *yandex-browser-beta-18.9.1.967_p1 (10 Oct 2018)
 

@@ -78,6 +78,9 @@ src_prepare() {
 
 	rm -r "${YANDEX_HOME}/cron" || die
 
+	gunzip usr/share/doc/${PN}/changelog.gz || die
+	gunzip usr/share/man/man1/${PN}.1.gz || die
+	
 	mv usr/share/doc/${PN} usr/share/doc/${PF} || die
 
 	pushd "${YANDEX_HOME}/locales" > /dev/null || die

@@ -5,6 +5,8 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 * www-client/[yandex-browser-beta-18.11.1.715](www-client/yandex-browser-beta/yandex-browser-beta-18.11.1.715_p1-r0.ebuild)
 * www-plugins/[yandex-browser-ffmpeg-codecs-67.0.3396.99](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-67.0.3396.99.ebuild)
+* www-plugins/[yandex-browser-ffmpeg-codecs-69.0.3497.100](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-69.0.3497.100.ebuild) — 15 Jan 2019
+* www-plugins/[yandex-browser-ffmpeg-codecs-70.0.3538.102](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-70.0.3538.102.ebuild) — 15 Jan 2019
 
 ## Current Packages
 

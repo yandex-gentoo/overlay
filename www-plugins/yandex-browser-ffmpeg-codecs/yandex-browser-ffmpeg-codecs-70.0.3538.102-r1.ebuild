@@ -22,7 +22,6 @@ COMMON_DEPEND="
 	>=dev-libs/libxml2-2.9.4-r3:=[icu]
 	dev-libs/libxslt:=
 	dev-libs/nspr:=
-	>=dev-libs/nss-3.26:=
 	>=dev-libs/re2-0.2016.05.01:=
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/fontconfig:=
@@ -33,46 +32,32 @@ COMMON_DEPEND="
 	>=media-libs/openh264-1.6.0:=
 	pulseaudio? ( media-sound/pulseaudio:= )
 	sys-apps/dbus:=
-	sys-apps/pciutils:=
 	virtual/udev
 	app-arch/snappy:=
 	media-libs/flac:=
 	>=media-libs/libwebp-0.4.0:=
 	sys-libs/zlib:=[minizip]
 "
-	# x11-libs/cairo:=
-	# x11-libs/gdk-pixbuf:2
-	# x11-libs/libX11:=
-	# x11-libs/libXcomposite:=
-	# x11-libs/libXcursor:=
-	# x11-libs/libXdamage:=
-	# x11-libs/libXext:=
-	# x11-libs/libXfixes:=
-	# >=x11-libs/libXi-1.6.0:=
-	# x11-libs/libXrandr:=
-	# x11-libs/libXrender:=
-	# x11-libs/libXScrnSaver:=
-	# x11-libs/libXtst:=
-	# x11-libs/pango:=
 
 RDEPEND="${COMMON_DEPEND}
+	sys-libs/glibc
 "
-	# sys-libs/glibc
-# dev-vcs/git - https://bugs.gentoo.org/593476
-# sys-apps/sandbox - https://crbug.com/586444
+
 DEPEND="${COMMON_DEPEND}
 	>=app-arch/gzip-1.7
 	dev-lang/yasm
 	dev-lang/perl
+	>=dev-libs/nss-3.26:=
 	dev-util/gn
 	>=dev-util/gperf-3.0.3
 	>=dev-util/ninja-1.7.2
+	dev-vcs/git
 	>=net-libs/nodejs-7.6.0[inspector]
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
+	sys-apps/pciutils:=
 	sys-devel/flex
 	virtual/pkgconfig
-	dev-vcs/git
 	$(python_gen_any_dep '
 		dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
 		>=dev-python/beautifulsoup-4.3.2:4[${PYTHON_USEDEP}]
@@ -102,35 +87,13 @@ fi
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/chromium-compiler-r4.patch"
-	"${FILESDIR}/chromium-webrtc-r0.patch"
-	"${FILESDIR}/chromium-memcpy-r0.patch"
-	"${FILESDIR}/chromium-math.h-r0.patch"
-	"${FILESDIR}/chromium-stdint.patch"
-	"${FILESDIR}/chromium-70-gcc-0.patch"
-	"${FILESDIR}/chromium-70-gcc-1.patch"
-	"${FILESDIR}/chromium-70-gcc-2.patch"
-	"${FILESDIR}/chromium-70-ffmpeg-clang.patch"
-	"${FILESDIR}/chromium-70-no-such-option-no-sysroot.patch"
+	"${FILESDIR}/chromium-70-FORTIFY_SOURCE-r2.patch"
 )
-#	"${FILESDIR}/chromium-ffmpeg-r1.patch"
 
 S="${WORKDIR}/chromium-${PV}"
 YANDEX_HOME="opt/yandex/browser-beta"
 
 pre_build_checks() {
-	# if [[ ${MERGE_TYPE} != binary ]]; then
-	# 	local -x CPP="$(tc-getCXX) -E"
-	# 	if tc-is-clang && ! version_is_at_least "3.9.1" "$(clang-fullversion)"; then
-	# 		# bugs: #601654
-	# 		die "At least clang 3.9.1 is required"
-	# 	fi
-	# 	if tc-is-gcc && ! version_is_at_least 5.0 "$(gcc-version)"; then
-	# 		# bugs: #535730, #525374, #518668, #600288, #627356
-	# 		die "At least gcc 5.0 is required"
-	# 	fi
-	# fi
-
 	# Check build requirements, bug #541816 and bug #471810 .
 	CHECKREQS_MEMORY="3G"
 	CHECKREQS_DISK_BUILD="5G"
@@ -159,157 +122,14 @@ src_prepare() {
 	# Calling this here supports resumption via FEATURES=keepwork
 	python_setup
 
+	# Use Python 2
+	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || die
+
 	default
 
 	mkdir -p third_party/node/linux/node-linux-x64/bin || die
 	ln -s "${EPREFIX}"/usr/bin/node third_party/node/linux/node-linux-x64/bin/node || die
 
-	# TODO: Manage libraries.
-	# local keeplibs=(
-	# 	base/third_party/dmg_fp
-	# 	base/third_party/dynamic_annotations
-	# 	base/third_party/icu
-	# 	base/third_party/nspr
-	# 	base/third_party/superfasthash
-	# 	base/third_party/symbolize
-	# 	base/third_party/valgrind
-	# 	base/third_party/xdg_mime
-	# 	base/third_party/xdg_user_dirs
-	# 	chrome/third_party/mozilla_security_manager
-	# 	courgette/third_party
-	# 	net/third_party/mozilla_security_manager
-	# 	net/third_party/nss
-	# 	third_party/WebKit
-	# 	third_party/analytics
-	# 	third_party/angle
-	# 	third_party/angle/src/common/third_party/base
-	# 	third_party/angle/src/common/third_party/smhasher
-	# 	third_party/angle/src/third_party/compiler
-	# 	third_party/angle/src/third_party/libXNVCtrl
-	# 	third_party/angle/src/third_party/trace_event
-	# 	third_party/blink
-	# 	third_party/boringssl
-	# 	third_party/boringssl/src/third_party/fiat
-	# 	third_party/breakpad
-	# 	third_party/breakpad/breakpad/src/third_party/curl
-	# 	third_party/brotli
-	# 	third_party/cacheinvalidation
-	# 	third_party/catapult
-	# 	third_party/catapult/common/py_vulcanize/third_party/rcssmin
-	# 	third_party/catapult/common/py_vulcanize/third_party/rjsmin
-	# 	third_party/catapult/third_party/polymer
-	# 	third_party/catapult/tracing/third_party/d3
-	# 	third_party/catapult/tracing/third_party/gl-matrix
-	# 	third_party/catapult/tracing/third_party/jszip
-	# 	third_party/catapult/tracing/third_party/mannwhitneyu
-	# 	third_party/catapult/tracing/third_party/oboe
-	# 	third_party/catapult/tracing/third_party/pako
-	# 	third_party/ced
-	# 	third_party/cld_3
-	# 	third_party/crc32c
-	# 	third_party/cros_system_api
-	# 	third_party/devscripts
-	# 	third_party/dom_distiller_js
-	# 	third_party/fips181
-	# 	third_party/flatbuffers
-	# 	third_party/flot
-	# 	third_party/freetype
-	# 	third_party/glslang-angle
-	# 	third_party/google_input_tools
-	# 	third_party/google_input_tools/third_party/closure_library
-	# 	third_party/google_input_tools/third_party/closure_library/third_party/closure
-	# 	third_party/googletest
-	# 	third_party/hunspell
-	# 	third_party/iccjpeg
-	# 	third_party/inspector_protocol
-	# 	third_party/jinja2
-	# 	third_party/jstemplate
-	# 	third_party/khronos
-	# 	third_party/leveldatabase
-	# 	third_party/libXNVCtrl
-	# 	third_party/libaddressinput
-	# 	third_party/libjingle
-	# 	third_party/libphonenumber
-	# 	third_party/libsecret
-	# 	third_party/libsrtp
-	# 	third_party/libudev
-	# 	third_party/libwebm
-	# 	third_party/libxml/chromium
-	# 	third_party/libyuv
-	# 	third_party/lss
-	# 	third_party/lzma_sdk
-	# 	third_party/markupsafe
-	# 	third_party/mesa
-	# 	third_party/metrics_proto
-	# 	third_party/modp_b64
-	# 	third_party/mt19937ar
-	# 	third_party/node
-	# 	third_party/node/node_modules/polymer-bundler/lib/third_party/UglifyJS2
-	# 	third_party/openmax_dl
-	# 	third_party/ots
-	# 	third_party/pdfium
-	# 	third_party/pdfium/third_party/agg23
-	# 	third_party/pdfium/third_party/base
-	# 	third_party/pdfium/third_party/build
-	# 	third_party/pdfium/third_party/bigint
-	# 	third_party/pdfium/third_party/freetype
-	# 	third_party/pdfium/third_party/lcms
-	# 	third_party/pdfium/third_party/libopenjpeg20
-	# 	third_party/pdfium/third_party/libpng16
-	# 	third_party/pdfium/third_party/libtiff
-	# 	third_party/ply
-	# 	third_party/polymer
-	# 	third_party/protobuf
-	# 	third_party/protobuf/third_party/six
-	# 	third_party/qcms
-	# 	third_party/sfntly
-	# 	third_party/skia
-	# 	third_party/skia/third_party/gif
-	# 	third_party/skia/third_party/vulkan
-	# 	third_party/smhasher
-	# 	third_party/spirv-headers
-	# 	third_party/spirv-tools-angle
-	# 	third_party/sqlite
-	# 	third_party/swiftshader
-	# 	third_party/swiftshader/third_party/llvm-subzero
-	# 	third_party/swiftshader/third_party/subzero
-	# 	third_party/usrsctp
-	# 	third_party/vulkan
-	# 	third_party/vulkan-validation-layers
-	# 	third_party/web-animations-js
-	# 	third_party/webdriver
-	# 	third_party/webrtc
-	# 	third_party/widevine
-	# 	third_party/woff2
-	# 	third_party/zlib/google
-	# 	url/third_party/mozilla
-	# 	v8/src/third_party/valgrind
-	# 	v8/third_party/inspector_protocol
-
-	# 	# gyp -> gn leftovers
-	# 	base/third_party/libevent
-	# 	third_party/adobe
-	# 	third_party/speech-dispatcher
-	# 	third_party/usb_ids
-	# 	third_party/xdg-utils
-	# 	third_party/yasm/run_yasm.py
-	# )
-	# if ! use system-ffmpeg; then
-	# 	keeplibs+=( third_party/ffmpeg third_party/opus )
-	# fi
-	# if ! use system-icu; then
-	# 	keeplibs+=( third_party/icu )
-	# fi
-	# if ! use system-libvpx; then
-	# 	keeplibs+=( third_party/libvpx )
-	# 	keeplibs+=( third_party/libvpx/source/libvpx/third_party/x86inc )
-	# fi
-	# if use tcmalloc; then
-	# 	keeplibs+=( third_party/tcmalloc )
-	# fi
-
-	# # Remove most bundled libraries. Some are still needed.
-	# build/linux/unbundle/remove_bundled_libraries.py "${keeplibs[@]}" --do-remove || die
 }
 
 bootstrap_gn() {
@@ -497,27 +317,27 @@ src_configure() {
 	addpredict /dev/dri/ #nowarn
 
 	# if ! use system-ffmpeg; then
-		local build_ffmpeg_args=""
+		# local build_ffmpeg_args=""
 
-		if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
-			build_ffmpeg_args+=" --disable-asm"
-		fi
+		# if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
+		# 	build_ffmpeg_args+=" --disable-asm"
+		# fi
 
-		# Re-configure bundled ffmpeg. See bug #491378 for example reasons.
-		einfo "Configuring bundled ffmpeg..."
+		# # Re-configure bundled ffmpeg. See bug #491378 for example reasons.
+		# einfo "Configuring bundled ffmpeg..."
 
-		pushd third_party/ffmpeg > /dev/null || die
-		chromium/scripts/build_ffmpeg.py linux ${ffmpeg_target_arch} \
-			--branding ${ffmpeg_branding} -- ${build_ffmpeg_args} || die
-		chromium/scripts/copy_config.sh || die
-		chromium/scripts/generate_gn.py || die
-		popd > /dev/null || die
+		# pushd third_party/ffmpeg > /dev/null || die
+		# chromium/scripts/build_ffmpeg.py linux ${ffmpeg_target_arch} \
+		# 	--branding ${ffmpeg_branding} -- ${build_ffmpeg_args} || die
+		# chromium/scripts/copy_config.sh || die
+		# chromium/scripts/generate_gn.py || die
+		# popd > /dev/null || die
 	# fi
 
-	bootstrap_gn
+	# bootstrap_gn
 
 	einfo "Configuring Chromium..."
-	set -- out/Release/gn gen out/Release --args="${myconf_gn}" -v --script-executable=/usr/bin/python2
+	set -- gn gen out/Release --args="${myconf_gn}" -v --script-executable=/usr/bin/python2
 	echo "$@"
 	"$@" || die
 }

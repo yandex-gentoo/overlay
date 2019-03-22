@@ -1,6 +1,62 @@
 # ChangeLog for www-plugins/yandex-browser-ffmpeg-codecs
-# Copyright 1999-2018 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
+
+*yandex-browser-ffmpeg-codecs-72.0.3626.121 (22 Mar 2019)
+
+  22 Mar 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-ffmpeg-codecs-67.0.3396.99.ebuild,
+  -yandex-browser-ffmpeg-codecs-69.0.3497.100.ebuild,
+  -yandex-browser-ffmpeg-codecs-70.0.3538.102.ebuild,
+  -yandex-browser-ffmpeg-codecs-70.0.3538.102-r1.ebuild,
+  -yandex-browser-ffmpeg-codecs-71.0.3578.99.ebuild,
+  +yandex-browser-ffmpeg-codecs-72.0.3626.121.ebuild:
+  Bump Ya.Browser to version 19.3.1.777
+  Bump codecs to version 72.0.3626.121
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.62-r1, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-ffmpeg-codecs-71.0.3578.99 (16 Mar 2019)
+
+  16 Mar 2019; Alexander <alex@ws54.tk>
+  +yandex-browser-ffmpeg-codecs-71.0.3578.99.ebuild:
+  Bump codecs to 71.0.3578.99
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.59, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-ffmpeg-codecs-70.0.3538.102-r1 (13 Mar 2019)
+
+  13 Mar 2019; Alexander <alex@ws54.tk>
+  +files/chromium-70-FORTIFY_SOURCE-r2.patch,
+  +files/chromium-70-ffmpeg-clang.patch,
+  +files/chromium-70-no-such-option-no-sysroot.patch,
+  yandex-browser-ffmpeg-codecs-70.0.3538.102.ebuild,
+  +yandex-browser-ffmpeg-codecs-70.0.3538.102-r1.ebuild:
+  Bump codecs to 70.0.3538.102-r1
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.59, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-ffmpeg-codecs-70.0.3538.102 (26 Jan 2019)
+*yandex-browser-ffmpeg-codecs-69.0.3497.100 (26 Jan 2019)
+
+  26 Jan 2019; Alexander <alex@ws54.tk> +files/chromium-70-gcc-0.patch,
+  +files/chromium-70-gcc-1.patch, +files/chromium-70-gcc-2.patch,
+  +files/chromium-compiler-r4.patch, +files/chromium-ffmpeg-ebp-r1.patch,
+  files/chromium-ffmpeg-r1.patch,
+  +yandex-browser-ffmpeg-codecs-69.0.3497.100.ebuild,
+  +yandex-browser-ffmpeg-codecs-70.0.3538.102.ebuild:
+  Update codecs. Adding more ebuilds.
+
+  × 69.0.3497.100 — do not built for me with clang-6
+  × 70.0.3538.102 — do not built for me with clang-6
+
+  Signed-off-by: Alexander <alex@ws54.tk>
 
 *yandex-browser-ffmpeg-codecs-67.0.3396.99 (26 Aug 2018)
 

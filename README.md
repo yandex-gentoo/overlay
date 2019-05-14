@@ -3,15 +3,21 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ## Ebuilds
 
-* www-client/[yandex-browser-beta-19.3.1.777](www-client/yandex-browser-beta/yandex-browser-beta-19.3.1.777_p1-r0.ebuild) — 22 Mar 2019
 * www-plugins/[yandex-browser-ffmpeg-codecs-72.0.3626.121](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-72.0.3626.121.ebuild) — 22 Mar 2019
+* www-client/[yandex-browser-beta-19.4.2.698](www-client/yandex-browser-beta/yandex-browser-beta-19.4.2.698_p1-r0.ebuild) — 14 May 2019
 
 ## Current Packages
 
-* www-client/[yandex-browser-beta-19.3.1.777_p1-r0.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-19.3.1.777_p1-r0.tbz2) — 22 Mar 2019
-* www-plugins/[yandex-browser-ffmpeg-codecs-72.0.3626.121.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-72.0.3626.121.tbz2) — 22 Mar 2019
+### 14 May 2019
+
+* www-client/[yandex-browser-beta-19.4.2.698_p1-r0.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-19.4.2.698_p1-r0.tbz2) — 14 May 2019
 
 ## Previous Packages
+
+### 22 Mar 2019
+
+* www-client/[yandex-browser-beta-19.3.1.777_p1-r0.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-19.3.1.777_p1-r0.tbz2) — 22 Mar 2019
+* www-plugins/[yandex-browser-ffmpeg-codecs-72.0.3626.121.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-72.0.3626.121.tbz2) — 22 Mar 2019
 
 ### 16 Mar 2019
 
@@ -69,7 +75,7 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ### 20 Dec 2017
 
-* www-client/[yandex-browser-beta-17.10.1.1202_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-yandex-browser-beta-17.10.1.1202_p1.tbz2) — 20 Dec 2017
+* www-client/[yandex-browser-beta-17.10.1.1202_p1.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-17.10.1.1202_p1.tbz2) — 20 Dec 2017
 * www-plugins/[yandex-browser-ffmpeg-codecs-61.0.3163.100.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-61.0.3163.100.tbz2) — 20 Dec 2017
 
 ### 31 Oct 2017

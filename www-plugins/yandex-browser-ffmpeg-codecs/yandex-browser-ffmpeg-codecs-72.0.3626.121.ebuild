@@ -11,7 +11,10 @@ DESCRIPTION="Multi-threaded ffmpeg codecs needed for the HTML5 <audio> and <vide
 HOMEPAGE="http://www.chromium.org/Home"
 LICENSE="BSD"
 SLOT="0"
-SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz"
+SRC_URI="
+	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz
+	http://gpo.ws54.tk/gentoo-distfiles/chromium-${PV}.tar.xz
+"
 KEYWORDS="~amd64 ~x86"
 IUSE="+component-build +proprietary-codecs pulseaudio x86? ( pic )"
 

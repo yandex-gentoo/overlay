@@ -54,7 +54,7 @@ RDEPEND="
 	sys-libs/libudev-compat
 "
 	# ffmpeg-codecs? (
-	# 	=www-plugins/yandex-browser-ffmpeg-codecs-70.0.3538.102
+	# 	=www-plugins/yandex-browser-ffmpeg-codecs-${PV/%_p*/}
 	# )
 DEPEND="
 	>=dev-util/patchelf-0.9

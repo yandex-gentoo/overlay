@@ -1,0 +1,22 @@
+app-arch/bzip2:= dev-libs/expat:= dev-libs/glib:2 >=dev-libs/libxml2-2.9.4-r3:=[icu] dev-libs/libxslt:= dev-libs/nspr:= >=dev-libs/re2-0.2016.05.01:= >=media-libs/alsa-lib-1.0.19:= media-libs/fontconfig:= media-libs/freetype:= >=media-libs/harfbuzz-2.0.0:0=[icu(-)] media-libs/libjpeg-turbo:= media-libs/libpng:= >=media-libs/openh264-1.6.0:= pulseaudio? ( media-sound/pulseaudio:= ) sys-apps/dbus:= virtual/udev app-arch/snappy:= media-libs/flac:= >=media-libs/libwebp-0.4.0:= sys-libs/zlib:=[minizip] >=app-arch/gzip-1.7 dev-lang/yasm dev-lang/perl >=dev-libs/nss-3.26:= dev-util/gn >=dev-util/gperf-3.0.3 >=dev-util/ninja-1.7.2 dev-vcs/git >=net-libs/nodejs-7.6.0[inspector] sys-apps/hwids[usb(+)] >=sys-devel/bison-2.4.3 sys-apps/pciutils:= sys-devel/flex virtual/pkgconfig || ( ( >=dev-lang/python-2.7.5-r2:2.7 dev-python/beautifulsoup:python-2[python_targets_python2_7(-),python_single_target_python2_7(+)] >=dev-python/beautifulsoup-4.3.2:4[python_targets_python2_7(-),python_single_target_python2_7(+)] dev-python/html5lib[python_targets_python2_7(-),python_single_target_python2_7(+)] dev-python/simplejson[python_targets_python2_7(-),python_single_target_python2_7(+)] ) )
+app-arch/bzip2:= dev-libs/expat:= dev-libs/glib:2 >=dev-libs/libxml2-2.9.4-r3:=[icu] dev-libs/libxslt:= dev-libs/nspr:= >=dev-libs/re2-0.2016.05.01:= >=media-libs/alsa-lib-1.0.19:= media-libs/fontconfig:= media-libs/freetype:= >=media-libs/harfbuzz-2.0.0:0=[icu(-)] media-libs/libjpeg-turbo:= media-libs/libpng:= >=media-libs/openh264-1.6.0:= pulseaudio? ( media-sound/pulseaudio:= ) sys-apps/dbus:= virtual/udev app-arch/snappy:= media-libs/flac:= >=media-libs/libwebp-0.4.0:= sys-libs/zlib:=[minizip] sys-libs/glibc
+0
+https://commondatastorage.googleapis.com/chromium-browser-official/chromium-73.0.3683.103.tar.xz -> yandex-browser-ffmpeg-codecs-19.4.2.698.tar.xz http://gpo.ws54.tk/gentoo-distfiles/yandex-browser-ffmpeg-codecs-19.4.2.698.tar.xz
+bindist mirror
+http://www.chromium.org/Home
+BSD
+Multi-threaded ffmpeg codecs needed for the HTML5 <audio> and <video> tags
+~amd64 ~x86
+check-reqs chromium-2 desktop eapi7-ver epatch estack eutils flag-o-matic linux-info ltprune multilib multiprocessing ninja-utils preserve-libs python-any-r1 python-utils-r1 toolchain-funcs unpacker vcs-clean versionator
++component-build +proprietary-codecs pulseaudio x86? ( pic ) kernel_linux
+
+
+
+6
+
+compile configure install prepare pretend setup unpack
+
+
+
+
+

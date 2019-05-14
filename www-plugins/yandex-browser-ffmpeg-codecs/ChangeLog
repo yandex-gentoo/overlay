@@ -2,6 +2,27 @@
 # Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-ffmpeg-codecs-19.4.2.698 (14 May 2019)
+
+  14 May 2019; Alexander <alex@ws54.tk>
+  +files/73-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch,
+  +files/73-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch,
+  +files/73-quic_flags_impl-Fix-GCC-build-after-618558.patch,
+  +yandex-browser-ffmpeg-codecs-19.4.2.698.ebuild:
+  Bump codecs to version 19.4.2.698(73.0.3683.103)
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.66, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+  14 May 2019; Alexander <alex@ws54.tk>
+  yandex-browser-ffmpeg-codecs-72.0.3626.121.ebuild:
+  Bump Ya.Browser to version 19.4.2.698
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.66, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-ffmpeg-codecs-72.0.3626.121 (22 Mar 2019)
 
   22 Mar 2019; Alexander <alex@ws54.tk>

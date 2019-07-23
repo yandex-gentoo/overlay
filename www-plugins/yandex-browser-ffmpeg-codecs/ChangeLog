@@ -2,6 +2,38 @@
 # Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-ffmpeg-codecs-19.6.2.594 (23 Jul 2019)
+
+  23 Jul 2019; Alexander <alex@ws54.tk>
+  -files/73-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch,
+  -files/73-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch,
+  -files/73-quic_flags_impl-Fix-GCC-build-after-618558.patch,
+  +files/73.1-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch,
+  +files/73.2-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch,
+  +files/73.3-quic_flags_impl-Fix-GCC-build-after-618558.patch,
+  +files/74.1-base-Value-Type-enum-class-size-should-be-8-bit.patch,
+  +files/74.2-base-Add-Dead-Type-to-base-Value.patch,
+  +files/74.3-base-Fix-Value-layout-for-GCC.patch,
+  +files/74.4-GCC-do-not-delete-move-constructor-of-QuicStreamSend.patch,
+  -files/chromium-70-FORTIFY_SOURCE-r2.patch,
+  -files/chromium-70-ffmpeg-clang.patch, -files/chromium-70-gcc-0.patch,
+  -files/chromium-70-gcc-1.patch, -files/chromium-70-gcc-2.patch,
+  -files/chromium-70-no-such-option-no-sysroot.patch,
+  -files/chromium-compiler-r0.patch, -files/chromium-compiler-r4.patch,
+  -files/chromium-ffmpeg-clang.patch, -files/chromium-ffmpeg-ebp-r1.patch,
+  -files/chromium-ffmpeg-r1.patch, -files/chromium-math.h-r0.patch,
+  -files/chromium-memcpy-r0.patch, -files/chromium-stdint.patch,
+  -files/chromium-webrtc-r0.patch,
+  yandex-browser-ffmpeg-codecs-19.4.2.698.ebuild,
+  +yandex-browser-ffmpeg-codecs-19.6.2.594.ebuild,
+  -yandex-browser-ffmpeg-codecs-72.0.3626.121.ebuild:
+  Bump Ya.Browser to version 19.6.2.594
+  Bump codecs to version 19.6.2.594(74.0.3729.169)
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.68, Repoman-2.3.16
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-ffmpeg-codecs-19.4.2.698 (14 May 2019)
 
   14 May 2019; Alexander <alex@ws54.tk>

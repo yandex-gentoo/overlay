@@ -2,6 +2,18 @@
 # Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
 # (auto-generated from git log)
 
+*yandex-browser-beta-19.6.2.594_p1-r0 (23 Jul 2019)
+
+  23 Jul 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-19.3.1.777_p1-r0.ebuild,
+  +yandex-browser-beta-19.6.2.594_p1-r0.ebuild:
+  Bump Ya.Browser to version 19.6.2.594
+  Bump codecs to version 19.6.2.594(74.0.3729.169)
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.68, Repoman-2.3.16
+  Manifest-Sign-Key: EF324203
+
 *yandex-browser-beta-19.4.2.698_p1-r0 (14 May 2019)
 
   14 May 2019; Alexander <alex@ws54.tk>

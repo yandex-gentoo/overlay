@@ -90,9 +90,9 @@ fi
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/73-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch"
-	"${FILESDIR}/73-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch"
-	"${FILESDIR}/73-quic_flags_impl-Fix-GCC-build-after-618558.patch"
+	"${FILESDIR}/73.1-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch"
+	"${FILESDIR}/73.2-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch"
+	"${FILESDIR}/73.3-quic_flags_impl-Fix-GCC-build-after-618558.patch"
 )
 
 S="${WORKDIR}/chromium-${MY_PV}"

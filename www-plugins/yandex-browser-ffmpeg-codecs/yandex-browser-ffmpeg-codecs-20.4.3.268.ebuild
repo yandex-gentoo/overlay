@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 PYTHON_COMPAT=( python2_7 )
-MY_PV="73.0.3683.103"
+MY_PV="81.0.4044.138"
 inherit check-reqs chromium-2 eutils unpacker flag-o-matic ninja-utils python-any-r1 toolchain-funcs versionator
 
 RESTRICT="bindist mirror"
@@ -90,9 +90,9 @@ fi
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/73.1-allocator-shim-Swap-ALIGN_LINKAGE-and-SHIM_ALWAYS_EX.patch"
-	"${FILESDIR}/73.2-color_utils-Use-std-sqrt-instead-of-std-sqrtf.patch"
-	"${FILESDIR}/73.3-quic_flags_impl-Fix-GCC-build-after-618558.patch"
+	"${FILESDIR}/chromium-78-protobuf-export.patch"
+	"${FILESDIR}/chromium-79-gcc-alignas.patch"
+	"${FILESDIR}/chromium-80-gcc-quiche.patch"
 )
 
 S="${WORKDIR}/chromium-${MY_PV}"
@@ -128,7 +128,7 @@ src_prepare() {
 	python_setup
 
 	# Use Python 2
-	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || die
+	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || true
 
 	default
 

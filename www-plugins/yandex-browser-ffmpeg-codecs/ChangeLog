@@ -2,6 +2,9 @@
 # Copyright 1999-2020 Gentoo Authors; Distributed under the GPL v2
 # (auto-generated from git log)
 
+  09 Sep 2020;  <st@gentoo.org> yandex-browser-ffmpeg-codecs-20.8.0.864.ebuild:
+  www-plugins/yandex-browser-ffmpeg-codecs-20.8.0.864 eshopts_push/pop removed
+
 *yandex-browser-ffmpeg-codecs-20.8.0.864 (09 Sep 2020)
 
   09 Sep 2020;  <st@gentoo.org> +yandex-browser-ffmpeg-codecs-20.8.0.864.ebuild,

@@ -3,13 +3,15 @@ Gentoo overlay with yandex things (mostly chromium-based browser) (have no conne
 
 ## Ebuilds
 
-* www-client/[yandex-browser-beta-19.6.2.594](www-client/yandex-browser-beta/yandex-browser-beta-19.6.2.594_p1-r0.ebuild) — 23 Jul 2019
-* www-plugins/[yandex-browser-ffmpeg-codecs-19.6.2.594](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-19.6.2.594.ebuild) — 23 Jul 2019
+* www-client/[yandex-browser-beta-20.8.0.864_p1](www-client/yandex-browser-beta/yandex-browser-beta-20.8.0.864_p1.ebuild) — 9 Sep 2020
+* www-plugins/[yandex-browser-ffmpeg-codecs-20.8.0.864](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-20.8.0.864.ebuild) — 9 Sep 2020
 
-* www-client/[yandex-browser-beta-19.4.2.698](www-client/yandex-browser-beta/yandex-browser-beta-19.4.2.698_p1-r0.ebuild) — 14 May 2019
-* www-plugins/[yandex-browser-ffmpeg-codecs-19.4.2.698](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-19.4.2.698.ebuild) — 14 May 2019
+* www-client/[yandex-browser-beta-20.4.3.268_p1](www-client/yandex-browser-beta/yandex-browser-beta-20.4.3.268_p1.ebuild) — 8 Jun 2020
+* www-plugins/[yandex-browser-ffmpeg-codecs-20.4.3.268](www-plugins/yandex-browser-ffmpeg-codecs/yandex-browser-ffmpeg-codecs-20.4.3.268.ebuild) — 8 Jun 2020
 
 ## Current Packages
+
+## Previous Packages
 
 ### 23 Jul 2019
 
@@ -22,8 +24,6 @@ New codecs package versioning system. At now it match with browser package versi
 
 * www-client/[yandex-browser-beta-19.4.2.698_p1-r0.tbz2](http://gpo.al54.tk/gentoo-packages/www-client/yandex-browser-beta-19.4.2.698_p1-r0.tbz2) — 14 May 2019
 * www-plugins/[yandex-browser-ffmpeg-codecs-19.4.2.698.tbz2](http://gpo.al54.tk/gentoo-packages/www-plugins/yandex-browser-ffmpeg-codecs-19.4.2.698.tbz2) — 14 May 2019
-
-## Previous Packages
 
 ### 22 Mar 2019
 

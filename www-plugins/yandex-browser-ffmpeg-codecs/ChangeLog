@@ -1,6 +1,19 @@
 # ChangeLog for www-plugins/yandex-browser-ffmpeg-codecs
-# Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2020 Gentoo Authors; Distributed under the GPL v2
 # (auto-generated from git log)
+
+  09 Sep 2020;  <st@gentoo.org> yandex-browser-ffmpeg-codecs-20.8.0.864.ebuild:
+  www-plugins/yandex-browser-ffmpeg-codecs-20.8.0.864 eshopts_push/pop removed
+
+*yandex-browser-ffmpeg-codecs-20.8.0.864 (09 Sep 2020)
+
+  09 Sep 2020;  <st@gentoo.org> +yandex-browser-ffmpeg-codecs-20.8.0.864.ebuild,
+  -files/74.1-base-Value-Type-enum-class-size-should-be-8-bit.patch,
+  -files/74.2-base-Add-Dead-Type-to-base-Value.patch,
+  -files/74.3-base-Fix-Value-layout-for-GCC.patch,
+  -files/74.4-GCC-do-not-delete-move-constructor-of-QuicStreamSend.patch,
+  -yandex-browser-ffmpeg-codecs-19.6.2.594.ebuild:
+  www-plugins/yandex-browser-ffmpeg-codecs v20.8.0.864
 
 *yandex-browser-ffmpeg-codecs-19.6.2.594 (23 Jul 2019)
 
@@ -236,4 +249,3 @@
   Package-Manager: Portage-2.3.12, Repoman-2.3.3
   Manifest-Sign-Key: EF324203
   Signed-off-by: Alexander <alex@ws54.tk>
-

@@ -1,60 +1,60 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 PYTHON_COMPAT=( python2_7 )
-MY_PV="84.0.4147.105"
-PATCHSET_NAME="chromium-84-patchset-3"
-
-inherit check-reqs chromium-2 desktop flag-o-matic ninja-utils python-any-r1 toolchain-funcs
+MY_PV="90.0.4430.72"
+inherit check-reqs chromium-2 flag-o-matic ninja-utils python-any-r1 toolchain-funcs
 
 RESTRICT="bindist mirror"
 DESCRIPTION="Multi-threaded ffmpeg codecs needed for the HTML5 <audio> and <video> tags"
 HOMEPAGE="http://www.chromium.org/Home"
-LICENSE="BSD"
-SLOT="0"
+HOMEPAGE="https://chromium.org/"
+#PATCHSET_NAME="chromium-90-patchset-7"
 SRC_URI="
 	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${MY_PV}.tar.xz -> ${P}.tar.xz
-	https://files.pythonhosted.org/packages/ed/7b/bbf89ca71e722b7f9464ebffe4b5ee20a9e5c9a555a56e2d3914bb9119a6/setuptools-44.1.0.zip
-	https://github.com/stha09/chromium-patches/releases/download/${PATCHSET_NAME}/${PATCHSET_NAME}.tar.xz
+	http://gpo.ws54.tk/gentoo-distfiles/${P}.tar.xz
 "
+#	https://github.com/stha09/chromium-patches/releases/download/${PATCHSET_NAME}/${PATCHSET_NAME}.tar.xz
+
+LICENSE="BSD"
+SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+component-build +proprietary-codecs pulseaudio pic"
+IUSE="+component-build +proprietary-codecs pulseaudio"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	dev-libs/expat:=
 	dev-libs/glib:2
 	>=dev-libs/libxml2-2.9.4-r3:=[icu]
+	dev-libs/libxslt:=
 	dev-libs/nspr:=
+	>=dev-libs/re2-0.2019.08.01:=
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/fontconfig:=
 	media-libs/freetype:=
 	>=media-libs/harfbuzz-2.4.0:0=[icu(-)]
 	media-libs/libjpeg-turbo:=
 	media-libs/libpng:=
+	>=media-libs/openh264-1.6.0:=
 	pulseaudio? ( media-sound/pulseaudio:= )
 	sys-apps/dbus:=
 	virtual/udev
+	app-arch/snappy:=
 	media-libs/flac:=
 	>=media-libs/libwebp-0.4.0:=
 	sys-libs/zlib:=[minizip]
 "
 
 RDEPEND="${COMMON_DEPEND}
+	sys-libs/glibc
 "
 
 DEPEND="${COMMON_DEPEND}
-"
-
-BDEPEND="
-	${PYTHON_DEPS}
 	>=app-arch/gzip-1.7
-	app-arch/unzip
-	dev-lang/yasm
 	dev-lang/perl
 	>=dev-libs/nss-3.26:=
-	dev-util/gn
+	>=dev-util/gn-0.1807
 	>=dev-util/gperf-3.0.3
 	>=dev-util/ninja-1.7.2
 	dev-vcs/git
@@ -65,25 +65,11 @@ BDEPEND="
 	sys-devel/flex
 	virtual/pkgconfig
 "
-: ${CHROMIUM_FORCE_CLANG=no}
-: ${CHROMIUM_FORCE_LIBCXX=no}
+
+: ${CHROMIUM_FORCE_CLANG=yes}
 
 if [[ ${CHROMIUM_FORCE_CLANG} == yes ]]; then
-	BDEPEND+=" >=sys-devel/clang-9"
-fi
-
-if [[ ${CHROMIUM_FORCE_LIBCXX} == yes ]]; then
-	RDEPEND+=" >=sys-libs/libcxx-9"
-	DEPEND+=" >=sys-libs/libcxx-9"
-else
-	COMMON_DEPEND="
-		app-arch/snappy:=
-		dev-libs/libxslt:=
-		>=dev-libs/re2-0.2019.08.01:=
-		>=media-libs/openh264-1.6.0:=
-	"
-	RDEPEND+="${COMMON_DEPEND}"
-	DEPEND+="${COMMON_DEPEND}"
+	DEPEND+=" >=sys-devel/clang-12"
 fi
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
@@ -91,8 +77,6 @@ if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 fi
 
 DISABLE_AUTOFORMATTING="yes"
-PATCHES=(
-)
 
 S="${WORKDIR}/chromium-${MY_PV}"
 YANDEX_HOME="opt/yandex/browser-beta"
@@ -100,13 +84,15 @@ YANDEX_HOME="opt/yandex/browser-beta"
 pre_build_checks() {
 	# Check build requirements, bug #541816 and bug #471810 .
 	CHECKREQS_MEMORY="3G"
-	CHECKREQS_DISK_BUILD="7G"
+	CHECKREQS_DISK_BUILD="6G"
+	eshopts_push -s extglob
 	if is-flagq '-g?(gdb)?([1-9])'; then
 		CHECKREQS_DISK_BUILD="25G"
 		if ! use component-build; then
 			CHECKREQS_MEMORY="16G"
 		fi
 	fi
+	eshopts_pop
 	check-reqs_pkg_setup
 }
 
@@ -124,16 +110,31 @@ src_prepare() {
 	# Calling this here supports resumption via FEATURES=keepwork
 	python_setup
 
-	eapply "${WORKDIR}/patches"
-
-	# Make xcbgen available to ui/gfx/x/gen_xproto.py running under Python 2
-	ln -s "${EPREFIX}"/usr/lib/python3.*/site-packages/xcbgen "${WORKDIR}/"
+	# Use Python 2
+	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || true
 
 	default
 
 	mkdir -p third_party/node/linux/node-linux-x64/bin || die
 	ln -s "${EPREFIX}"/usr/bin/node third_party/node/linux/node-linux-x64/bin/node || die
 
+}
+
+bootstrap_gn() {
+	if tc-is-cross-compiler; then
+		local -x AR=${BUILD_AR}
+		local -x CC=${BUILD_CC}
+		local -x CXX=${BUILD_CXX}
+		local -x NM=${BUILD_NM}
+		local -x CFLAGS=${BUILD_CFLAGS}
+		local -x CXXFLAGS=${BUILD_CXXFLAGS}
+		local -x LDFLAGS=${BUILD_LDFLAGS}
+	fi
+	einfo "Building GN..."
+#	set -- tools/gn/bootstrap/bootstrap.py -s -v --no-clean
+	set -- tools/gn/bootstrap/bootstrap.py -s -v -o ott/Release/gn
+	echo "$@"
+	"$@" || die
 }
 
 src_configure() {
@@ -155,9 +156,6 @@ src_configure() {
 	if tc-is-clang; then
 		myconf_gn+=" is_clang=true clang_use_chrome_plugins=false"
 	else
-		if [[ ${CHROMIUM_FORCE_LIBCXX} == yes ]]; then
-			die "Compiling with sys-libs/libcxx requires clang."
-		fi
 		myconf_gn+=" is_clang=false"
 	fi
 
@@ -185,7 +183,7 @@ src_configure() {
 	myconf_gn+=" use_allocator=\"none\""
 
 	# Disable nacl, we can't build without pnacl (http://crbug.com/269560).
-	myconf_gn+=" enable_nacl=false"
+	myconf_gn+=" enable_nacl=false enable_nacl_nonsfi=false"
 
 	# Use system-provided libraries.
 	# TODO: freetype (https://bugs.chromium.org/p/pdfium/issues/detail?id=733).
@@ -207,6 +205,12 @@ src_configure() {
 	# 	libjpeg
 	# 	libpng
 	# 	libwebp
+	# 	libxml
+	# 	libxslt
+	# 	openh264
+	# 	re2
+	# 	snappy
+	# 	yasm
 	# 	zlib
 	# )
 	# if use system-ffmpeg; then
@@ -227,8 +231,9 @@ src_configure() {
 	myconf_gn+=" enable_hangout_services_extension=false"
 	myconf_gn+=" enable_widevine=false"
 	myconf_gn+=" use_cups=false"
+	myconf_gn+=" use_gconf=false"
 	myconf_gn+=" use_gnome_keyring=false"
-	myconf_gn+=" use_gtk=false"
+	myconf_gn+=" use_gtk3=false"
 	myconf_gn+=" use_kerberos=false"
 	myconf_gn+=" use_pulseaudio=$(usex pulseaudio true false)"
 
@@ -239,10 +244,9 @@ src_configure() {
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	# Do not use bundled clang.
 	# Trying to use gold results in linker crash.
-	myconf_gn+=" use_gold=false use_sysroot=false use_custom_libcxx=false"
+	myconf_gn+=" use_gold=false use_sysroot=false linux_use_bundled_binutils=false use_custom_libcxx=true"
 
-	# Disable forced lld, bug 641556
-	myconf_gn+=" use_lld=false"
+	myconf_gn+=" is_component_build=true "
 
 	ffmpeg_branding="ChromeOS"
 
@@ -253,9 +257,6 @@ src_configure() {
 	if [[ $myarch = amd64 ]] ; then
 		myconf_gn+=" target_cpu=\"x64\""
 		ffmpeg_target_arch=x64
-	elif [[ $myarch = x86 ]] ; then
-		myconf_gn+=" target_cpu=\"x86\""
-		ffmpeg_target_arch=ia32
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -268,60 +269,13 @@ src_configure() {
 	# Disable fatal linker warnings, bug 506268.
 	myconf_gn+=" fatal_linker_warnings=false"
 	# Additional conf
-	myconf_gn+=" symbol_level=0"
+	myconf_gn+=" enable_hevc_demuxing=true"
 	myconf_gn+=" use_gio=false"
+	myconf_gn+=" symbol_level=0"
 	# myconf_gn+=" "
 
-	# Avoid CFLAGS problems, bug #352457, bug #390147.
-	# if ! use custom-cflags; then
-		replace-flags "-Os" "-O2"
-		strip-flags
-
-		# Prevent linker from running out of address space, bug #471810 .
-		if use x86; then
-			filter-flags "-g*"
-		fi
-
-		# Prevent libvpx build failures. Bug 530248, 544702, 546984.
-		if [[ ${myarch} == amd64 || ${myarch} == x86 ]]; then
-			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 -mno-avx -mno-avx2
-		fi
-	# fi
-
-	if [[ ${CHROMIUM_FORCE_LIBCXX} == yes ]]; then
-		append-flags -stdlib=libc++
-		append-ldflags -stdlib=libc++
-	fi
-
-	# Bug 491582.
-	export TMPDIR="${WORKDIR}/temp"
-	mkdir -p -m 755 "${TMPDIR}" || die
-
-	# https://bugs.gentoo.org/654216
-	addpredict /dev/dri/ #nowarn
-
-	# if ! use system-ffmpeg; then
-		# local build_ffmpeg_args=""
-
-		# if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
-		# 	build_ffmpeg_args+=" --disable-asm"
-		# fi
-
-		# # Re-configure bundled ffmpeg. See bug #491378 for example reasons.
-		# einfo "Configuring bundled ffmpeg..."
-
-		# pushd third_party/ffmpeg > /dev/null || die
-		# chromium/scripts/build_ffmpeg.py linux ${ffmpeg_target_arch} \
-		# 	--branding ${ffmpeg_branding} -- ${build_ffmpeg_args} || die
-		# chromium/scripts/copy_config.sh || die
-		# chromium/scripts/generate_gn.py || die
-		# popd > /dev/null || die
-	# fi
-
-	# bootstrap_gn
-
 	einfo "Configuring Chromium..."
-	set -- gn gen --args="${myconf_gn} ${EXTRA_GN}" out/Release
+	set -- gn gen out/Release --args="${myconf_gn}" -v --script-executable=/usr/bin/python2
 	echo "$@"
 	"$@" || die
 }
@@ -329,12 +283,6 @@ src_configure() {
 src_compile() {
 	# Calling this here supports resumption via FEATURES=keepwork
 	python_setup
-
-	# https://bugs.gentoo.org/717456
-	# ui/gfx/x/gen_xproto.py needs xcbgen
-	local -x PYTHONPATH="${WORKDIR}:${WORKDIR}/setuptools-44.1.0:${PYTHONPATH+:}${PYTHONPATH}"
-
-	#"${EPYTHON}" tools/clang/scripts/update.py --force-local-build --gcc-toolchain /usr --skip-checkout --use-system-cmake --without-android || die
 
 	# Even though ninja autodetects number of CPUs, we respect
 	# user's options, for debugging with -j 1 or any other reason.

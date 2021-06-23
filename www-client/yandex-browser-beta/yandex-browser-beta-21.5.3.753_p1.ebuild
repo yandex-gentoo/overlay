@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
-inherit chromium-2 unpacker pax-utils xdg-utils
+inherit chromium-2 desktop unpacker pax-utils xdg
 
 RESTRICT="bindist mirror strip"
 
@@ -61,6 +61,7 @@ DEPEND="
 "
 
 QA_PREBUILT="*"
+QA_DESKTOP_FILE="usr/share/applications/yandex-browser-beta.desktop"
 S=${WORKDIR}
 YANDEX_HOME="opt/${PN/-//}"
 
@@ -73,7 +74,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	rm usr/bin/${PN} || die
+#	rm usr/bin/${PN} || die
 
 	rm -r etc || die
 
@@ -90,11 +91,11 @@ src_prepare() {
 
 	default
 
-	sed -r \
-		-e 's|\[(NewWindow)|\[X-\1|g' \
-		-e 's|\[(NewIncognito)|\[X-\1|g' \
-		-e 's|^TargetEnvironment|X-&|g' \
-		-i usr/share/applications/${PN}.desktop || die
+#	sed -r \
+#		-e 's|\[(NewWindow)|\[X-\1|g' \
+#		-e 's|\[(NewIncognito)|\[X-\1|g' \
+#		-e 's|^TargetEnvironment|X-&|g' \
+#		-i usr/share/applications/${PN}.desktop || die
 
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser-sandbox" || die "Failed to fix library rpath (yandex_browser-sandbox)"
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser" || die "Failed to fix library rpath (yandex_browser)"
@@ -105,10 +106,10 @@ src_prepare() {
 src_install() {
 	mv * "${D}" || die
 	dodir "/usr/$(get_libdir)/${PN}/lib"
-	make_wrapper "${PN}" "./${PN}" "${EPREFIX}/${YANDEX_HOME}" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib"
+#	make_wrapper "${PN}" "./${PN}" "${EPREFIX}/${YANDEX_HOME}" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib"
 
 	# yandex_browser binary loads libudev.so.0 at runtime
-	dosym "${EPREFIX}/usr/$(get_libdir)/libudev.so.0" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib/libudev.so.0"
+#	dosym "${EPREFIX}/usr/$(get_libdir)/libudev.so.0" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib/libudev.so.0"
 
 	keepdir "${EPREFIX}/${YANDEX_HOME}"
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
@@ -130,8 +131,4 @@ pkg_postinst() {
 		ewarn "emerge an ebuild 'www-plugins/yandex-browser-ffmpeg-codec'."
 		ewarn "For more info see: https://yandex.ru/support/browser-beta/working-with-files/video.html#problems__video-linux"
 	fi
-}
-
-pkg_postrm() {
-	xdg_desktop_database_update
 }

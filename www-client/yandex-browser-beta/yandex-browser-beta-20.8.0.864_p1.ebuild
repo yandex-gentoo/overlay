@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -52,10 +52,10 @@ RDEPEND="
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
 	sys-libs/libudev-compat
+	ffmpeg-codecs? (
+		=www-plugins/yandex-browser-ffmpeg-codecs-${PV/%_p*/}
+	)
 "
-	# ffmpeg-codecs? (
-	# 	=www-plugins/yandex-browser-ffmpeg-codecs-${PV/%_p*/}
-	# )
 DEPEND="
 	>=dev-util/patchelf-0.9
 "

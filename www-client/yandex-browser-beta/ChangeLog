@@ -1,6 +1,12 @@
 # ChangeLog for www-client/yandex-browser-beta
-# Copyright 1999-2019 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2020 Gentoo Authors; Distributed under the GPL v2
 # (auto-generated from git log)
+
+*yandex-browser-beta-20.8.0.864_p1 (09 Sep 2020)
+
+  09 Sep 2020;  <st@gentoo.org> +yandex-browser-beta-20.8.0.864_p1.ebuild,
+  -yandex-browser-beta-19.6.2.594_p1-r0.ebuild:
+  www-client/yandex-browser-beta: v20.8.0.864
 
 *yandex-browser-beta-19.6.2.594_p1-r0 (23 Jul 2019)
 
@@ -292,4 +298,3 @@
   23 Oct 2016; Vadim A. Misbakh-Soloviov <git@mva.name> +metadata.xml,
   +yandex-browser-beta-16.10.1.545_p1.ebuild:
   Init
-

@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 PYTHON_COMPAT=( python2_7 )
-MY_PV="74.0.3729.169"
+MY_PV="81.0.4044.138"
 inherit check-reqs chromium-2 eutils unpacker flag-o-matic ninja-utils python-any-r1 toolchain-funcs versionator
 
 RESTRICT="bindist mirror"
@@ -90,10 +90,9 @@ fi
 
 DISABLE_AUTOFORMATTING="yes"
 PATCHES=(
-	"${FILESDIR}/74.1-base-Value-Type-enum-class-size-should-be-8-bit.patch"
-	"${FILESDIR}/74.2-base-Add-Dead-Type-to-base-Value.patch"
-	"${FILESDIR}/74.3-base-Fix-Value-layout-for-GCC.patch"
-	"${FILESDIR}/74.4-GCC-do-not-delete-move-constructor-of-QuicStreamSend.patch"
+	"${FILESDIR}/chromium-78-protobuf-export.patch"
+	"${FILESDIR}/chromium-79-gcc-alignas.patch"
+	"${FILESDIR}/chromium-80-gcc-quiche.patch"
 )
 
 S="${WORKDIR}/chromium-${MY_PV}"
@@ -129,7 +128,7 @@ src_prepare() {
 	python_setup
 
 	# Use Python 2
-	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || die
+	find -name '*.py' | xargs sed -e 's|env python|&2|g' -e 's|bin/python|&2|g' -i || true
 
 	default
 

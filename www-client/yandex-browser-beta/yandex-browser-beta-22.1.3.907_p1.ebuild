@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-CHROMIUM_LANGS="cs de en-US es fr it ja pt-BR pt-PT ru tr uk zh-CN zh-TW"
-inherit chromium-2 unpacker pax-utils xdg-utils
+EAPI=8
+CHROMIUM_LANGS="cs de en-US es fr it ja kk pt-BR pt-PT ru tr uk uz zh-CN zh-TW"
+inherit chromium-2 unpacker desktop wrapper pax-utils
 
 RESTRICT="bindist mirror strip"
 
@@ -15,10 +15,8 @@ LICENSE="Yandex-EULA"
 SLOT="0"
 SRC_URI="
 	amd64? ( https://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
-	amd64? ( http://gpo.ws54.tk/gentoo-distfiles/${P}.deb -> ${P}.deb )
 "
 KEYWORDS="~amd64"
-IUSE="ffmpeg-codecs"
 
 RDEPEND="
 	dev-libs/expat
@@ -51,10 +49,11 @@ RDEPEND="
 	x11-libs/libXtst
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
-	sys-libs/libudev-compat
-	ffmpeg-codecs? (
-		=www-plugins/yandex-browser-ffmpeg-codecs-${PV/%_p*/}
+	|| (
+		www-plugins/yandex-browser-ffmpeg-codecs-bin
+		www-plugins/yandex-browser-ffmpeg-codecs
 	)
+	sys-libs/libudev-compat
 "
 DEPEND="
 	>=dev-util/patchelf-0.9
@@ -73,16 +72,15 @@ src_unpack() {
 }
 
 src_prepare() {
-	rm usr/bin/${PN} || die
+	rm usr/bin/${PN} || die "Failed to remove bundled wrapper"
 
-	rm -r etc || die
+	rm -r etc || die "Failed to remove etc"
 
-	rm -r "${YANDEX_HOME}/cron" || die
+	rm -r "${YANDEX_HOME}/cron" || die "Failed ro remove cron hook"
 
-	gunzip usr/share/doc/${PN}/changelog.gz || die
-	gunzip usr/share/man/man1/${PN}.1.gz || die
+	mv usr/share/doc/${PN} usr/share/doc/${PF} || die "Failed to move docdir"
 
-	mv usr/share/doc/${PN} usr/share/doc/${PF} || die
+	gunzip "usr/share/doc/${PF}/changelog.gz" "usr/share/man/man1/${PN}.1.gz" || die "Failed to decompress docs"
 
 	pushd "${YANDEX_HOME}/locales" > /dev/null || die
 	chromium_remove_language_paks
@@ -104,13 +102,14 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
-	dodir "/usr/$(get_libdir)/${PN}/lib"
-	make_wrapper "${PN}" "./${PN}" "${EPREFIX}/${YANDEX_HOME}" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib"
+	dodir /usr/$(get_libdir)/${PN}/lib
+	mv "${D}"/usr/share/appdata "${D}"/usr/share/metainfo
+
+	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib" || die "Failed to mae wrapper"
 
 	# yandex_browser binary loads libudev.so.0 at runtime
-	dosym "${EPREFIX}/usr/$(get_libdir)/libudev.so.0" "${EPREFIX}/usr/$(get_libdir)/${PN}/lib/libudev.so.0"
+	dosym /usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/${PN}/lib/libudev.so.0
 
-	keepdir "${EPREFIX}/${YANDEX_HOME}"
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"
 		size=${size%.png}
@@ -118,20 +117,7 @@ src_install() {
 		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
 	done
 
-	fowners root:root "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
-	fperms 4711 "${EPREFIX}/${YANDEX_HOME}/yandex_browser-sandbox"
+	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
+	fperms 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
-}
-
-pkg_postinst() {
-	xdg_desktop_database_update
-	if ! use ffmpeg-codecs; then
-		ewarn "For a complete support of video\audio in the HTML5 format"
-		ewarn "emerge an ebuild 'www-plugins/yandex-browser-ffmpeg-codec'."
-		ewarn "For more info see: https://yandex.ru/support/browser-beta/working-with-files/video.html#problems__video-linux"
-	fi
-}
-
-pkg_postrm() {
-	xdg_desktop_database_update
 }

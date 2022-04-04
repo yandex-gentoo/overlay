@@ -1,8 +1,8 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-PYTHON_COMPAT=( python2_7 )
+EAPI=8
+PYTHON_COMPAT=( python3_8 )
 MY_PV="84.0.4147.105"
 PATCHSET_NAME="chromium-84-patchset-3"
 
@@ -112,6 +112,9 @@ pre_build_checks() {
 
 pkg_pretend() {
 	pre_build_checks
+	ewarn "Probably, this ecuild is broken, and it definitelly outdated."
+	ewarn "Unfortunately, I've not enough time to properly bump it,"
+	ewarn "so, if you interested - feel free to make a PR with proper bump."
 }
 
 pkg_setup() {

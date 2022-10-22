@@ -56,8 +56,8 @@ RDEPEND="
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
 	sys-libs/libudev-compat
+	www-plugins/yandex-browser-ffmpeg-codecs-beta-bin
 "
-	# www-plugins/yandex-browser-ffmpeg-codecs-beta-bin
 
 DEPEND="
 	>=dev-util/patchelf-0.9

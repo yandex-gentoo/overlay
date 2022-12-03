@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -9,12 +9,18 @@ RESTRICT="bindist mirror strip"
 
 MY_PV="${PV/_p/-}"
 
+if [[ ${PN} == yandex-browser ]]; then
+	MY_PN=${PN}-stable
+else
+	MY_PN=${PN}
+fi
+
 DESCRIPTION="The web browser from Yandex"
-HOMEPAGE="https://browser.yandex.ru/beta/"
+HOMEPAGE="https://browser.yandex.ru/"
 LICENSE="Yandex-EULA"
 SLOT="0"
 SRC_URI="
-	amd64? ( https://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
+	amd64? ( https://repo.yandex.ru/yandex-browser/deb/pool/main/y/${MY_PN}/${MY_PN}_${MY_PV}_amd64.deb -> ${P}.deb )
 "
 KEYWORDS="~amd64"
 
@@ -49,17 +55,16 @@ RDEPEND="
 	x11-libs/libXtst
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
-	|| (
-		www-plugins/yandex-browser-ffmpeg-codecs-bin
-		www-plugins/yandex-browser-ffmpeg-codecs
-	)
 	sys-libs/libudev-compat
+	www-plugins/yandex-browser-ffmpeg-codecs-beta-bin
 "
+
 DEPEND="
 	>=dev-util/patchelf-0.9
 "
 
 QA_PREBUILT="*"
+QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
 S=${WORKDIR}
 YANDEX_HOME="opt/${PN/-//}"
 
@@ -72,15 +77,15 @@ src_unpack() {
 }
 
 src_prepare() {
-	rm usr/bin/${PN} || die "Failed to remove bundled wrapper"
+	rm usr/bin/${MY_PN} || die "Failed to remove bundled wrapper"
 
 	rm -r etc || die "Failed to remove etc"
 
 	rm -r "${YANDEX_HOME}/cron" || die "Failed ro remove cron hook"
 
-	mv usr/share/doc/${PN} usr/share/doc/${PF} || die "Failed to move docdir"
+	mv usr/share/doc/${MY_PN} usr/share/doc/${PF} || die "Failed to move docdir"
 
-	gunzip "usr/share/doc/${PF}/changelog.gz" "usr/share/man/man1/${PN}.1.gz" || die "Failed to decompress docs"
+	gunzip "usr/share/doc/${PF}/changelog.gz" "usr/share/man/man1/${MY_PN}.1.gz" || die "Failed to decompress docs"
 
 	pushd "${YANDEX_HOME}/locales" > /dev/null || die
 	chromium_remove_language_paks
@@ -102,19 +107,19 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
-	dodir /usr/$(get_libdir)/${PN}/lib
+	dodir /usr/$(get_libdir)/${MY_PN}/lib
 	mv "${D}"/usr/share/appdata "${D}"/usr/share/metainfo
 
-	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib" || die "Failed to mae wrapper"
+	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${MY_PN}/lib" || die "Failed to mae wrapper"
 
 	# yandex_browser binary loads libudev.so.0 at runtime
-	dosym /usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/${PN}/lib/libudev.so.0
+	dosym /usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/${MY_PN}/lib/libudev.so.0
 
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"
 		size=${size%.png}
 		dodir "/usr/share/icons/hicolor/${size}x${size}/apps"
-		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
+		newicon -s "${size}" "$icon" "${MY_PN}.png"
 	done
 
 	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"

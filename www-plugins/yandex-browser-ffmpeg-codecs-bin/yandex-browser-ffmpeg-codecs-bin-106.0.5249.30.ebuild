@@ -12,9 +12,9 @@ SLOT="0"
 LICENSE="BSD"
 RESTRICT="bindist strip mirror"
 
-DEBIAN_REVISION="0ubuntu0.18.04.1"
+DEBIAN_REVISION="2ubuntu0.18.04"
 _FULL_VERSION="${PV}-${DEBIAN_REVISION}"
-BASE_URI="https://launchpadlibrarian.net/618703258/"
+BASE_URI="https://launchpadlibrarian.net/623257277/"
 SRC_URI="
 	amd64? ( ${BASE_URI}/chromium-codecs-ffmpeg-extra_${_FULL_VERSION}_amd64.deb )
 "

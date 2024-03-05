@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Foundation
+# Copyright 1999-2024 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ inherit unpacker
 
 KEYWORDS="~amd64 ~x86"
 DESCRIPTION="Multi-threaded ffmpeg codecs needed for the HTML5 <audio> and <video> tags"
-HOMEPAGE="http://www.chromium.org/Home"
+HOMEPAGE="http://www.chromium.org/Home/"
 SLOT="0"
 LICENSE="BSD"
 RESTRICT="bindist strip mirror"

@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,14 +8,29 @@ inherit chromium-2 unpacker desktop wrapper pax-utils xdg
 RESTRICT="bindist mirror strip"
 
 MY_PV="${PV/_p/-}"
-if [[ ${PN} == yandex-browser ]]; then
-	MY_PN=${PN}-stable
-else
-	MY_PN=${PN}
-fi
+MY_BASE_PN="yandex-browser"
+case ${PN} in
+	yandex-browser)
+		MY_PN="${PN}-stable"
+		HOMEPAGE="https://browser.yandex.ru/"
+		BLOCK="!www-client/yandex-browser-corporate"
+		DESKTOP_FILE_NAME="${PN}"
+		;;
+	yandex-browser-beta)
+		MY_PN="${PN}"
+		HOMEPAGE="https://browser.yandex.ru/beta/"
+		DESKTOP_FILE_NAME="${PN}"
+		;;
+	yandex-browser-corporate)
+		MY_PN="${PN}"
+		DESKTOP_FILE_NAME="${PN%%-corporate}"
+		BLOCK="!www-client/yandex-browser"
+		HOMEPAGE="https://browser.yandex.ru/corp"
+		;;
+esac
+YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
 
 DESCRIPTION="The web browser from Yandex"
-HOMEPAGE="https://browser.yandex.ru/beta/"
 LICENSE="Yandex-EULA"
 SLOT="0"
 IUSE="+ffmpeg-codecs"
@@ -56,16 +71,16 @@ RDEPEND="
 	dev-qt/qtgui
 	dev-qt/qtwidgets
 	app-accessibility/at-spi2-core
+	${BLOCK}
 "
 # TODO: check media-video/ffmpeg-chromium
-DEPEND="
+BDEPEND="
 	>=dev-util/patchelf-0.9
 "
 
 QA_PREBUILT="*"
 QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
 S=${WORKDIR}
-YANDEX_HOME="opt/${PN/-//}"
 
 pkg_setup() {
 	chromium_suid_sandbox_check_kernel_config
@@ -84,12 +99,26 @@ src_prepare() {
 
 	mv usr/share/doc/${MY_PN} usr/share/doc/${PF} || die "Failed to move docdir"
 
-	gunzip "usr/share/doc/${PF}/changelog.gz" "usr/share/man/man1/${MY_PN}.1.gz" || die "Failed to decompress docs"
-	rm "usr/share/man/man1/${PN}.1.gz" || die
+	gunzip \
+		"usr/share/doc/${PF}/changelog.gz" \
+		"usr/share/man/man1/${MY_PN}.1.gz" \
+	|| die "Failed to decompress docs"
 
-	pushd "${YANDEX_HOME}/locales" > /dev/null || die
-	chromium_remove_language_paks
+	pushd "${YANDEX_HOME}/locales" > /dev/null || die "Failed to cd into locales dir"
+		chromium_remove_language_paks
 	popd > /dev/null || die
+
+	local crap=(
+		"${YANDEX_HOME}/xdg-settings"
+		"${YANDEX_HOME}/xdg-mime"
+		"${YANDEX_HOME}/update-ffmpeg"
+		"${YANDEX_HOME}/update_codecs"
+		"${YANDEX_HOME}/compiz.sh"
+	)
+	 test -f "usr/share/man/man1/${MY_BASE_PN}.1.gz" &&
+		 crap+=("usr/share/man/man1/${MY_BASE_PN}.1.gz")
+
+	rm ${crap[@]} || die "Failed to remove bundled crap"
 
 	default
 
@@ -98,12 +127,12 @@ src_prepare() {
 		-e 's|\[(NewIncognito)|\[X-\1|g' \
 		-e 's|^TargetEnvironment|X-&|g' \
 		-e 's|-stable||g' \
-		-i usr/share/applications/${PN}.desktop || die
+		-i usr/share/applications/${DESKTOP_FILE_NAME}.desktop || die
 
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser-sandbox" || die "Failed to fix library rpath (sandbox)"
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser" || die "Failed to fix library rpath (yandex_browser)"
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/find_ffmpeg" || die "Failed to fix library rpath (find_ffmpeg)"
-	patchelf --remove-rpath "${S}/${YANDEX_HOME}/nacl_helper" || die "Failed to fix library rpath (nacl_helper)"
+	# patchelf --remove-rpath "${S}/${YANDEX_HOME}/nacl_helper" || die "Failed to fix library rpath (nacl_helper)"
 }
 
 src_install() {
@@ -111,11 +140,8 @@ src_install() {
 	dodir /usr/$(get_libdir)/${MY_PN}/lib
 	mv "${D}"/usr/share/appdata "${D}"/usr/share/metainfo || die
 
-	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${MY_PN}/lib" || die "Failed to mae wrapper"
-
-	# yandex_browser binary loads libudev.so.0 at runtime
-	dosym "${ESYSROOT}"/usr/$(get_libdir)/libudev.so.0 /usr/$(get_libdir)/"${MY_PN}"/lib/libudev.so.0
-	dosym "${ESYSROOT}"/usr/share/man/man1/"${MY_PN}".1.bz2 /usr/share/man/man1/"${PN}".1.bz2
+	make_wrapper "${PN}" "./${DESKTOP_FILE_NAME}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${MY_PN}/lib" \
+		|| die "Failed to mae wrapper"
 
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"

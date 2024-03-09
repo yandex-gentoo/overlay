@@ -15,17 +15,22 @@ case ${PN} in
 		HOMEPAGE="https://browser.yandex.ru/"
 		BLOCK="!www-client/yandex-browser-corporate"
 		DESKTOP_FILE_NAME="${PN}"
+		FFMPEG_PV="120"
+		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
+		# (don't call prepare when you want to check, as prepare phase removes it)
 		;;
 	yandex-browser-beta)
 		MY_PN="${PN}"
 		HOMEPAGE="https://browser.yandex.ru/beta/"
 		DESKTOP_FILE_NAME="${PN}"
+		FFMPEG_PV="120"
 		;;
 	yandex-browser-corporate)
 		MY_PN="${PN}"
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
+		FFMPEG_PV="120"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
@@ -65,7 +70,7 @@ RDEPEND="
 	x11-libs/libXrandr
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
-	ffmpeg-codecs? ( www-plugins/yandex-browser-ffmpeg-codecs-bin )
+	ffmpeg-codecs? ( media-video/ffmpeg-chromium:${FFMPEG_PV} )
 	sys-libs/libudev-compat
 	dev-qt/qtcore
 	dev-qt/qtgui
@@ -73,7 +78,6 @@ RDEPEND="
 	app-accessibility/at-spi2-core
 	${BLOCK}
 "
-# TODO: check media-video/ffmpeg-chromium
 BDEPEND="
 	>=dev-util/patchelf-0.9
 "
@@ -115,8 +119,9 @@ src_prepare() {
 		"${YANDEX_HOME}/update_codecs"
 		"${YANDEX_HOME}/compiz.sh"
 	)
-	 test -f "usr/share/man/man1/${MY_BASE_PN}.1.gz" &&
-		 crap+=("usr/share/man/man1/${MY_BASE_PN}.1.gz")
+
+	test -L "usr/share/man/man1/${MY_BASE_PN}.1.gz" &&
+		crap+=("usr/share/man/man1/${MY_BASE_PN}.1.gz")
 
 	rm ${crap[@]} || die "Failed to remove bundled crap"
 
@@ -132,7 +137,6 @@ src_prepare() {
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser-sandbox" || die "Failed to fix library rpath (sandbox)"
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/yandex_browser" || die "Failed to fix library rpath (yandex_browser)"
 	patchelf --remove-rpath "${S}/${YANDEX_HOME}/find_ffmpeg" || die "Failed to fix library rpath (find_ffmpeg)"
-	# patchelf --remove-rpath "${S}/${YANDEX_HOME}/nacl_helper" || die "Failed to fix library rpath (nacl_helper)"
 }
 
 src_install() {
@@ -149,6 +153,8 @@ src_install() {
 		dodir "/usr/share/icons/hicolor/${size}x${size}/apps"
 		newicon -s "${size}" "$icon" "${MY_PN}.png"
 	done
+
+	dosym ../../../usr/"$(get_libdir)"/chromium/libffmpeg.so."${FFMPEG_PV}" "${YANDEX_HOME}"/libffmpeg.so || die
 
 	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
 	fperms 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"

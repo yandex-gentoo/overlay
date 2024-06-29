@@ -15,7 +15,7 @@ case ${PN} in
 		HOMEPAGE="https://browser.yandex.ru/"
 		BLOCK="!www-client/yandex-browser-corporate"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="122"
+		FFMPEG_PV="124"
 		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
 		# (don't call prepare when you want to check, as prepare phase removes it)
 		# Or you may look for "based on Chromium <version> in "control" file in the deb package.
@@ -31,7 +31,7 @@ case ${PN} in
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
-		FFMPEG_PV="122"
+		FFMPEG_PV="124"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
@@ -146,7 +146,7 @@ src_install() {
 	mv "${D}"/usr/share/appdata "${D}"/usr/share/metainfo || die
 
 	make_wrapper "${PN}" "./${DESKTOP_FILE_NAME}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${MY_PN}/lib" \
-		|| die "Failed to mae wrapper"
+		|| die "Failed to make a wrapper"
 
 	for icon in "${D}/${YANDEX_HOME}/product_logo_"*.png; do
 		size="${icon##*/product_logo_}"

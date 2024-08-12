@@ -19,6 +19,7 @@ case ${PN} in
 		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
 		# (don't call prepare when you want to check, as prepare phase removes it)
 		# Or you may look for "based on Chromium <version> in "control" file in the deb package.
+		# hint: bsdtar -xf <...>.deb -O control.tar.xz | tar -xJ -O ./control
 		;;
 	yandex-browser-beta)
 		MY_PN="${PN}"

@@ -95,7 +95,7 @@ S=${WORKDIR}
 
 pkg_pretend() {
 	# Protect against people using autounmask overzealously
-	use amd64 || die "google-chrome only works on amd64"
+	use amd64 || die "${PN} only works on amd64"
 }
 
 pkg_setup() {

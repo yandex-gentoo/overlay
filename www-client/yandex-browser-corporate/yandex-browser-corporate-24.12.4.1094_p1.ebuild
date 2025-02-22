@@ -15,7 +15,7 @@ case ${PN} in
 		HOMEPAGE="https://browser.yandex.ru/"
 		BLOCK="!www-client/yandex-browser-corporate"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="130"
+		FFMPEG_PV="132"
 		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
 		# (don't call prepare when you want to check, as prepare phase removes it)
 		# Or you may look for "based on Chromium <version> in "control" file in the deb package.
@@ -25,14 +25,14 @@ case ${PN} in
 		MY_PN="${PN}"
 		HOMEPAGE="https://browser.yandex.ru/beta/"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="130"
+		FFMPEG_PV="132"
 		;;
 	yandex-browser-corporate)
 		MY_PN="${PN}"
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
-		FFMPEG_PV="128"
+		FFMPEG_PV="130"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
@@ -40,7 +40,7 @@ YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
 DESCRIPTION="The web browser from Yandex"
 LICENSE="Yandex-EULA"
 SLOT="0"
-IUSE="+ffmpeg-codecs"
+IUSE="+ffmpeg-codecs qt5 qt6"
 SRC_URI="
 	amd64? ( https://repo.yandex.ru/yandex-browser/deb/pool/main/y/${MY_PN}/${MY_PN}_${MY_PV}_amd64.deb -> ${P}.deb )
 "
@@ -74,9 +74,14 @@ RDEPEND="
 	x11-misc/xdg-utils
 	ffmpeg-codecs? ( media-video/ffmpeg-chromium:${FFMPEG_PV} )
 	sys-libs/libudev-compat
-	dev-qt/qtcore
-	dev-qt/qtgui
-	dev-qt/qtwidgets
+	qt5? (
+		dev-qt/qtcore:5
+		dev-qt/qtgui:5[X]
+		dev-qt/qtwidgets:5
+	)
+	qt6? (
+		dev-qt/qtbase:6[gui,widgets]
+	)
 	app-accessibility/at-spi2-core
 	${BLOCK}
 "
@@ -87,6 +92,11 @@ BDEPEND="
 QA_PREBUILT="*"
 QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
 S=${WORKDIR}
+
+pkg_pretend() {
+	# Protect against people using autounmask overzealously
+	use amd64 || die "google-chrome only works on amd64"
+}
 
 pkg_setup() {
 	chromium_suid_sandbox_check_kernel_config
@@ -113,6 +123,13 @@ src_prepare() {
 	pushd "${YANDEX_HOME}/locales" > /dev/null || die "Failed to cd into locales dir"
 		chromium_remove_language_paks
 	popd > /dev/null || die
+
+	if ! use qt5; then
+		rm "${YANDEX_HOME}/libqt5_shim.so" || die
+	fi
+	if ! use qt6; then
+		rm "${YANDEX_HOME}/libqt6_shim.so" || die
+	fi
 
 	local crap=(
 		"${YANDEX_HOME}/xdg-settings"

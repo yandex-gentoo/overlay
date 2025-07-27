@@ -15,7 +15,7 @@ case ${PN} in
 		HOMEPAGE="https://browser.yandex.ru/"
 		BLOCK="!www-client/yandex-browser-corporate"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="135"
+		FFMPEG_PV="137"
 		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
 		# (don't call prepare when you want to check, as prepare phase removes it)
 		# Or you may look for "based on Chromium <version> in "control" file in the deb package.
@@ -25,14 +25,14 @@ case ${PN} in
 		MY_PN="${PN}"
 		HOMEPAGE="https://browser.yandex.ru/beta/"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="135"
+		FFMPEG_PV="137"
 		;;
 	yandex-browser-corporate)
 		MY_PN="${PN}"
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
-		FFMPEG_PV="135"
+		FFMPEG_PV="137"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"

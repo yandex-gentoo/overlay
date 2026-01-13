@@ -32,7 +32,7 @@ case ${PN} in
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
-		FFMPEG_PV="143"
+		FFMPEG_PV="140"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"

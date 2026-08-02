@@ -15,7 +15,7 @@ case ${PN} in
 		HOMEPAGE="https://browser.yandex.ru/"
 		BLOCK="!www-client/yandex-browser-corporate"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="146"
+		FFMPEG_PV="149"
 		# check in update_ffmpeg script on unpack phase (in the string containing "jq")
 		# (don't call prepare when you want to check, as prepare phase removes it)
 		# Or you may look for "based on Chromium <version> in "control" file in the deb package.
@@ -25,14 +25,14 @@ case ${PN} in
 		MY_PN="${PN}"
 		HOMEPAGE="https://browser.yandex.ru/beta/"
 		DESKTOP_FILE_NAME="${PN}"
-		FFMPEG_PV="146"
+		FFMPEG_PV="149"
 		;;
 	yandex-browser-corporate)
 		MY_PN="${PN}"
 		DESKTOP_FILE_NAME="${PN%%-corporate}"
 		BLOCK="!www-client/yandex-browser"
 		HOMEPAGE="https://browser.yandex.ru/corp"
-		FFMPEG_PV="144"
+		FFMPEG_PV="146"
 		;;
 esac
 YANDEX_HOME="opt/${DESKTOP_FILE_NAME/-//}"
@@ -90,7 +90,8 @@ BDEPEND="
 "
 
 QA_PREBUILT="*"
-QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
+QA_DESKTOP_FILE="usr/share/applications/ru.yandex.desktop.browser.*\\.desktop usr/share/applications/yandex-browser.*\\.desktop"
+# TODO: 👆 check ru.yandex .desktop name on beta
 S=${WORKDIR}
 
 pkg_pretend() {
@@ -132,8 +133,6 @@ src_prepare() {
 	fi
 
 	local crap=(
-		"${YANDEX_HOME}/xdg-settings"
-		"${YANDEX_HOME}/xdg-mime"
 		"${YANDEX_HOME}/update-ffmpeg"
 		"${YANDEX_HOME}/update_codecs"
 		"${YANDEX_HOME}/compiz.sh"
@@ -141,6 +140,11 @@ src_prepare() {
 
 	test -L "usr/share/man/man1/${MY_BASE_PN}.1.gz" &&
 		crap+=("usr/share/man/man1/${MY_BASE_PN}.1.gz")
+
+	# NOTE: no more in beta (and maybe stable), but still in corporate
+	# TODO: remove on next bump, I guess?
+	test -f "${YANDEX_HOME}/xdg-settings" && crap+=("${YANDEX_HOME}/xdg-settings")
+	test -f "${YANDEX_HOME}/xdg-mime" && crap+=("${YANDEX_HOME}/xdg-mime")
 
 	rm ${crap[@]} || die "Failed to remove bundled crap"
 
@@ -178,4 +182,8 @@ src_install() {
 	fowners root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
 	fperms 4711 "/${YANDEX_HOME}/yandex_browser-sandbox"
 	pax-mark m "${ED}${YANDEX_HOME}/yandex_browser-sandbox"
+
+	# TODO: think about a way to fix corporate-vs-beta-vs-stable collision of:
+	#  /usr/share/mime/packages/yandex-browser-yprotect.xml
+	#  /usr/share/icons/hicolor/scalable/mimetypes/application-x-yprotect.svg
 }
